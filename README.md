@@ -13,3 +13,9 @@ As a dancer in Vancouver many small studios use posters to advertise their class
 schedules are difficult to find for smaller studios, and I wanted to create an application that can help these studios 
 manage their classes. Instead of multiple spreadsheets, this application will be able to keep track of which students
 take their classes. This is especially important during this global pandemic when contract tracing is essential.
+
+## User Stories
+- as a user, I want to be able to add classes to the schedule
+- as a user, I want to be able to remove classes from a schedule
+- as a user, I want to be able to register students for classes
+- as a user, I want to be able to see the schedule for the week
