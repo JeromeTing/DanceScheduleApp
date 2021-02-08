@@ -1,11 +1,15 @@
-# My Personal Project
+# Dance Studio Scheduling Application
 
-## A subtitle
+## Aim
+This application:
+ - will schedule dance classes (add and remove) to a calendar 
+ - provide information about the classes
+ - allow the dance studio to register students to those classes
+  - provide a visualization of the dance schedule. 
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
-
-An example of text with **bold** and *italic* fonts.  Note that the IntelliJ markdown previewer doesn't seem to render 
-the bold and italic fonts correctly but they will appear correctly on GitHub.
+This application will be used by the dance studio and its administration team.
+## Motivation
+As a dancer in Vancouver many small studios use posters to advertise their classes on social media. Dance class
+schedules are difficult to find for smaller studios, and I wanted to create an application that can help these studios 
+manage their classes. Instead of multiple spreadsheets, this application will be able to keep track of which students
+take their classes. This is especially important during this global pandemic when contract tracing is essential.
