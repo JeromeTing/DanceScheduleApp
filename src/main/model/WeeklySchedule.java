@@ -34,4 +34,10 @@ public class WeeklySchedule {
         weeklySchedule.add(sunday);
     }
 
+    //getters
+
+    public List<Day> getWeeklySchedule() {
+        return weeklySchedule;
+    }
+
 }

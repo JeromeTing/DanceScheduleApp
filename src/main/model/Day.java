@@ -14,6 +14,15 @@ public class Day {
         dayName = day;
     }
 
+    //getters
+    public List<DanceClass> getDaySchedule() {
+        return daySchedule;
+    }
+
+    public String getDayName() {
+        return dayName;
+    }
+
     // REQUIRES: dance class cannot be already in the schedule for the day and cannot have the same time
     //           as another class
     // MODIFIES: this
