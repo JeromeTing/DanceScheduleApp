@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DanceClass {
-    private int maxStudents = 15;
+    private int maxStudents = 5;
 
     private String className;                   // name of dance class
-    private String timeAndDay;                  // d
+    private int time;                           // time of class as 2400
     private String teacherName;                 // name of the teacher of the class
     private String difficultyLevel;             // Difficult of the class as either "Open", "Intro", "Intermediate",
                                                 // or "Advanced"
@@ -18,20 +18,21 @@ public class DanceClass {
     /* EFFECTS: constructs a dance class, where the class name, time and ay, teacher name and difficulty
      *          level are specified
      */
-    public DanceClass(String className, String timeAndDay, String teacherName, String difficultyLevel) {
+    public DanceClass(String className, int time, String teacherName, String difficultyLevel) {
         this.className = className;
-        this.timeAndDay = timeAndDay;
+        this.time = time;
         this.teacherName = teacherName;
         this.difficultyLevel = difficultyLevel;
         registeredStudents = new ArrayList<>();
     }
 
+    // getters;
     public String getClassName() {
         return className;
     }
 
-    public String getTimeAndDay() {
-        return timeAndDay;
+    public int getTime() {
+        return time;
     }
 
     public String getTeacherName() {
@@ -42,12 +43,13 @@ public class DanceClass {
         return difficultyLevel;
     }
 
+    // setters
     public void setClassName(String className) {
         this.className = className;
     }
 
-    public void setTimeAndDay(String timeAndDay) {
-        this.timeAndDay = timeAndDay;
+    public void setTime(int time) {
+        this.time = time;
     }
 
     public void setTeacherName(String teacherName) {
@@ -69,6 +71,17 @@ public class DanceClass {
             return true;
         }
         return false;
+    }
+
+    // EFFECT: returns the number of registered students
+    public int size() {
+        return registeredStudents.size();
+    }
+
+    // REQUIRES: student must be registered in the class
+    // EFFECT: returns true if the student is registered, false otherwise
+    public boolean contains(Student student) {
+        return registeredStudents.contains(student);
     }
 
 }
