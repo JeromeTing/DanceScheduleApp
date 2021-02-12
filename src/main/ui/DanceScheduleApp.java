@@ -87,6 +87,7 @@ public class DanceScheduleApp {
                 System.out.println(c.getDifficultyLevel() + " " + c.getClassName());
                 System.out.println("Time: " + c.getTime());
                 System.out.println("Teacher: " + c.getTeacherName());
+                System.out.println("Number of students registered:" + c.sizeOfClass());
                 System.out.println("\n");
             }
         }
@@ -100,7 +101,7 @@ public class DanceScheduleApp {
             System.out.println(c.getDifficultyLevel() + " " + c.getClassName());
             System.out.println("Time: " + c.getTime());
             System.out.println("Teacher: " + c.getTeacherName());
-            System.out.println("Number of students registered:" + c.sizeOfClass());
+            System.out.println("Number of students registered: " + c.sizeOfClass());
             System.out.println("\n");
         }
     }
@@ -127,6 +128,7 @@ public class DanceScheduleApp {
         time = input.nextInt();
         danceClass = findClassByTime(dayName,time);
         dayName.removeDanceClass(danceClass);
+        System.out.println("Class has been successfully removed!");
     }
 
     // EFFECT: Takes a user string and returns the matched day (Monday to Sunday)
@@ -193,8 +195,10 @@ public class DanceScheduleApp {
         Student student;
 
         System.out.println("What is the student's name?");
+        input.next();
         String studentName = input.nextLine();
         displayMembershipInstructions();
+
         membership = handleMembershipCommand();
 
         if (membership == -1) {
