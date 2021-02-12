@@ -155,7 +155,15 @@ public class DanceScheduleApp {
     // EFFECT: returns a dance class with user specified input of a time
     private DanceClass addClass() {
         String className = addClassName();
-        int time = addTime();
+        int time = -1;
+        
+        while (time < 0 || time > 2400) {
+            time = addTime();
+            if (time < 0 || time > 2400) {
+                System.out.println("Please input a time between 0 to 2400");
+            }
+        }
+
         input.nextLine();
         String teacherName = addTeacherName();
         String difficultyLvl = addDifficultyLevel();
