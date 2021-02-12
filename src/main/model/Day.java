@@ -24,26 +24,31 @@ public class Day {
         return dayName;
     }
 
-    // REQUIRES: dance class cannot be already in the schedule for the day and cannot have the same time
+    // REQUIRES: dance class cannot be already in the schedule for the day
     //           as another class
     // MODIFIES: this
-    // EFFECTS: adds a dance class to a particular day in chronological order (based on time)
-    public void addDanceClass(DanceClass danceClass) {
+    // EFFECTS: adds a dance class to a particular day in chronological order (based on time) and returns true,
+    //           if a duplicate class time is added, the class will not be added successfully and returns false.
+    public boolean addDanceClass(DanceClass danceClass) {
         if (daySchedule.size() == 0) {
             daySchedule.add(danceClass);
+            return true;
         } else if (daySchedule.get(0).getTime() > danceClass.getTime()) {
             daySchedule.add(0, danceClass);
+            return true;
         } else if (daySchedule.get(daySchedule.size() - 1).getTime() < danceClass.getTime()) {
             daySchedule.add(daySchedule.size(), danceClass);
+            return true;
         } else {
             for (DanceClass c: daySchedule) {
                 if (c.getTime() > danceClass.getTime()) {
                     int index = daySchedule.indexOf(c);
                     daySchedule.add(index, danceClass);
-                    break;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     // REQUIRES: dance class must be in the schedule

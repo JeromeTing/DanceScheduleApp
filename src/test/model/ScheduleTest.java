@@ -159,8 +159,8 @@ class ScheduleTest {
     }
     @Test
     public void testAddDanceClassOneClassInDaySchedule() {
-        tuesdaySchedule.addDanceClass(danceClass1);
-        tuesdaySchedule.addDanceClass(danceClass2);
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass1));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass2));
 
         assertEquals(danceClass2, tuesdaySchedule.getDanceClass(0));
         assertEquals(danceClass1, tuesdaySchedule.getDanceClass(1));
@@ -170,12 +170,12 @@ class ScheduleTest {
 
     @Test
     public void testAddDanceClassMultipleClass() {
-        tuesdaySchedule.addDanceClass(danceClass1);
-        tuesdaySchedule.addDanceClass(danceClass2);
-        tuesdaySchedule.addDanceClass(danceClass3);
-        tuesdaySchedule.addDanceClass(danceClass4);
-        tuesdaySchedule.addDanceClass(danceClass5);
-        tuesdaySchedule.addDanceClass(danceClass6);
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass1));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass2));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass3));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass4));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass5));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass6));
 
         assertEquals(6, tuesdaySchedule.getDaySchedule().size());
 
@@ -187,12 +187,25 @@ class ScheduleTest {
         assertEquals(danceClass3, tuesdaySchedule.getDanceClass(5));
 
     }
+
+    @Test
+    public void testAddDanceClassSameTime() {
+        DanceClass danceClass7 = new DanceClass("Hip Hop", 1930, "Kayla","Open");
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass1));
+
+        assertEquals(1, tuesdaySchedule.getDaySchedule().size());
+
+        assertFalse(tuesdaySchedule.addDanceClass(danceClass7));
+
+        assertEquals(1, tuesdaySchedule.getDaySchedule().size());
+        assertEquals(danceClass1,tuesdaySchedule.getDanceClass(0));
+    }
     @Test
     public void removeDanceClassOneClass() {
-        tuesdaySchedule.addDanceClass(danceClass1);
-        tuesdaySchedule.addDanceClass(danceClass2);
-        tuesdaySchedule.addDanceClass(danceClass3);
-        tuesdaySchedule.addDanceClass(danceClass4);
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass1));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass2));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass3));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass4));
 
         tuesdaySchedule.removeDanceClass(danceClass1);
 
@@ -204,10 +217,10 @@ class ScheduleTest {
     }
     @Test
     public void removeDanceClassMultiple() {
-        tuesdaySchedule.addDanceClass(danceClass1);
-        tuesdaySchedule.addDanceClass(danceClass2);
-        tuesdaySchedule.addDanceClass(danceClass3);
-        tuesdaySchedule.addDanceClass(danceClass4);
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass1));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass2));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass3));
+        assertTrue(tuesdaySchedule.addDanceClass(danceClass4));
 
         tuesdaySchedule.removeDanceClass(danceClass1);
         tuesdaySchedule.removeDanceClass(danceClass4);
