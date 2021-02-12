@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DanceClass {
-    private int maxStudents = 5;
+    private int maxStudents = 15;
 
     private String className;                   // name of dance class
     private int time;                           // time of class as 2400
@@ -43,6 +43,17 @@ public class DanceClass {
         return difficultyLevel;
     }
 
+    // EFFECT: returns the number of registered students
+    public int size() {
+        return registeredStudents.size();
+    }
+
+    // REQUIRES: student must be registered in the class
+    // EFFECT: returns true if the student is registered, false otherwise
+    public boolean contains(Student student) {
+        return registeredStudents.contains(student);
+    }
+
     // setters
     public void setClassName(String className) {
         this.className = className;
@@ -71,17 +82,6 @@ public class DanceClass {
             return true;
         }
         return false;
-    }
-
-    // EFFECT: returns the number of registered students
-    public int size() {
-        return registeredStudents.size();
-    }
-
-    // REQUIRES: student must be registered in the class
-    // EFFECT: returns true if the student is registered, false otherwise
-    public boolean contains(Student student) {
-        return registeredStudents.contains(student);
     }
 
 }

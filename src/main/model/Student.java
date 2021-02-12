@@ -10,6 +10,7 @@ public class Student {
         membershipNumber = membershipNum;
     }
 
+    // getters
     public String getName() {
         return name;
     }
