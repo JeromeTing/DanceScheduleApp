@@ -5,6 +5,7 @@ import model.Student;
 import java.util.ArrayList;
 import java.util.List;
 
+// represents a dance class that has a class name, a time, a teacher's name, and difficulty level
 public class DanceClass {
     private int maxStudents = 15;
 
@@ -15,7 +16,9 @@ public class DanceClass {
                                                 // or "Advanced"
     private List<Student> registeredStudents;   // list of students registered in a class
 
-    /* EFFECTS: constructs a dance class, where the class name, time and ay, teacher name and difficulty
+    /* REQUIRES: className, teacherName, and difficultyLevel must be a string length > 0.
+     *           time must be an integer [0, 2400].
+     * EFFECTS: constructs a dance class, where the class name, time and ay, teacher name and difficulty
      *          level are specified
      */
     public DanceClass(String className, int time, String teacherName, String difficultyLevel) {
@@ -43,17 +46,6 @@ public class DanceClass {
         return difficultyLevel;
     }
 
-    // EFFECT: returns the number of registered students
-    public int size() {
-        return registeredStudents.size();
-    }
-
-    // REQUIRES: student must be registered in the class
-    // EFFECT: returns true if the student is registered, false otherwise
-    public boolean contains(Student student) {
-        return registeredStudents.contains(student);
-    }
-
     // setters
     public void setClassName(String className) {
         this.className = className;
@@ -69,6 +61,17 @@ public class DanceClass {
 
     public void setDifficultyLevel(String difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
+    }
+
+    // EFFECT: returns the number of registered students
+    public int sizeOfClass() {
+        return registeredStudents.size();
+    }
+
+    // REQUIRES: student must be registered in the class
+    // EFFECT: returns true if the student is registered, false otherwise
+    public boolean isStudentRegistered(Student student) {
+        return registeredStudents.contains(student);
     }
 
     /* REQUIRES: Student cannot be registered in the class

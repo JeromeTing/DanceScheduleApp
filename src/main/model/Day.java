@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents the schedule a day of the week, where it has a day name and a list of dance classes
 public class Day {
     private List<DanceClass> daySchedule;
     private String dayName;
@@ -26,7 +27,7 @@ public class Day {
     // REQUIRES: dance class cannot be already in the schedule for the day and cannot have the same time
     //           as another class
     // MODIFIES: this
-    // EFFECTS: adds a dance class to a particular day in order
+    // EFFECTS: adds a dance class to a particular day in chronological order (based on time)
     public void addDanceClass(DanceClass danceClass) {
         if (daySchedule.size() == 0) {
             daySchedule.add(danceClass);

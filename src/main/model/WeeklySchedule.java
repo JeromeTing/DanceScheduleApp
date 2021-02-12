@@ -3,26 +3,21 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents the schedule for the entire week (Monday to Friday)
 public class WeeklySchedule {
 
-    private List<Day> weeklySchedule;
-    private Day monday;
-    private Day tuesday;
-    private Day wednesday;
-    private Day thursday;
-    private Day friday;
-    private Day saturday;
-    private Day sunday;
+    private final List<Day> weeklySchedule;
 
-    //EFFECTS: creates an empty collection of
+    //EFFECTS: creates a weekly schedule that is an array, where the days of the week are added
+    //          by default (Monday to Friday)
     public WeeklySchedule() {
-        monday = new Day("Monday");
-        tuesday = new Day("Tuesday");
-        wednesday = new Day("Wednesday");
-        thursday = new Day("Thursday");
-        friday = new Day("Friday");
-        saturday = new Day("Saturday");
-        sunday = new Day("Sunday");
+        Day monday = new Day("Monday");
+        Day tuesday = new Day("Tuesday");
+        Day wednesday = new Day("Wednesday");
+        Day thursday = new Day("Thursday");
+        Day friday = new Day("Friday");
+        Day saturday = new Day("Saturday");
+        Day sunday = new Day("Sunday");
 
         weeklySchedule = new ArrayList<>();
         weeklySchedule.add(monday);

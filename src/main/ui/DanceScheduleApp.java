@@ -98,6 +98,7 @@ public class DanceScheduleApp {
             System.out.println(c.getDifficultyLevel() + " " + c.getClassName());
             System.out.println("Time: " + c.getTime());
             System.out.println("Teacher: " + c.getTeacherName());
+            System.out.println("Number of students registered:" + c.sizeOfClass());
             System.out.println("\n");
         }
     }

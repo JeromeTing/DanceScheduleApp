@@ -2,7 +2,6 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ui.DanceScheduleApp;
 
 import java.util.List;
 
@@ -113,8 +112,8 @@ class ScheduleTest {
     public void testRegisterStudentEmptyClass() {
         assertTrue(danceClass1.registerStudent(jerome));
 
-        assertEquals(1,danceClass1.size());
-        assertTrue(danceClass1.contains(jerome));
+        assertEquals(1,danceClass1.sizeOfClass());
+        assertTrue(danceClass1.isStudentRegistered(jerome));
     }
 
     @Test
@@ -122,8 +121,8 @@ class ScheduleTest {
         assertTrue(danceClass1.registerStudent(jerome));
         assertFalse(danceClass1.registerStudent(jerome));
 
-        assertEquals(1,danceClass1.size());
-        assertTrue(danceClass1.contains(jerome));
+        assertEquals(1,danceClass1.sizeOfClass());
+        assertTrue(danceClass1.isStudentRegistered(jerome));
     }
 
 
@@ -145,11 +144,11 @@ class ScheduleTest {
         assertTrue(danceClass1.registerStudent(tiernan));
         assertTrue(danceClass1.registerStudent(petra));
 
-        assertEquals(15, danceClass1.size());
+        assertEquals(15, danceClass1.sizeOfClass());
 
         assertFalse(danceClass1.registerStudent(jerome));
 
-        assertEquals(15, danceClass1.size());
+        assertEquals(15, danceClass1.sizeOfClass());
     }
     @Test
     public void testAddDanceClassEmptyDaySchedule() {
