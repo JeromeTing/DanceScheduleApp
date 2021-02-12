@@ -272,11 +272,10 @@ public class DanceScheduleApp {
         command = command.toLowerCase();
 
         if (command.equals("n")) {
-            userInput = 0;
-        } else if (command.equals("y")) {
-            userInput = -1;
+            return 0;
+        } else {
+            return userInput;
         }
-        return userInput;
     }
 
     // EFFECT: returns an int that is a match for the index of the week (0 to 6), if no strings match then returns -1
