@@ -3,18 +3,12 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ScheduleTest {
-    /*
-    Essentially brainstorming what I need to test here:
-    - Student class (none?)
-    - DanceClass class
-        - test if I can register a student to an empty class
-        - test if I can register a student to a full class
-        - test to make sure I cannot add a student to a class that's already in the class
-   - Schedule?
-     */
+
     private DanceClass danceClass1;
     private DanceClass danceClass2;
     private DanceClass danceClass3;
@@ -34,6 +28,21 @@ class ScheduleTest {
         jerome = new Student("Jerome", 106);
 
         tuesdaySchedule = new Day("Tuesday");
+    }
+
+    @Test
+    public void testWeeklyScheduleConstructorDefault() {
+        WeeklySchedule weeklySchedule = new WeeklySchedule();
+        List<Day> week = weeklySchedule.getWeeklySchedule();
+
+        assertEquals(7, week.size());
+        assertEquals("Monday",  week.get(0).getDayName());
+        assertEquals("Tuesday",  week.get(1).getDayName());
+        assertEquals("Wednesday",  week.get(2).getDayName());
+        assertEquals("Thursday",  week.get(3).getDayName());
+        assertEquals("Friday",  week.get(4).getDayName());
+        assertEquals("Saturday",  week.get(5).getDayName());
+        assertEquals("Sunday",  week.get(6).getDayName());
     }
 
     @Test
@@ -101,7 +110,7 @@ class ScheduleTest {
     public void testAddDanceClassEmptyDaySchedule() {
         tuesdaySchedule.addDanceClass(danceClass1);
 
-        assertEquals(1, tuesdaySchedule.size());
+        assertEquals(1, tuesdaySchedule.getDaySchedule().size());
         assertEquals(danceClass1, tuesdaySchedule.getDanceClass(0));
     }
     @Test
@@ -112,7 +121,7 @@ class ScheduleTest {
         assertEquals(danceClass2, tuesdaySchedule.getDanceClass(0));
         assertEquals(danceClass1, tuesdaySchedule.getDanceClass(1));
 
-        assertEquals(2, tuesdaySchedule.size());
+        assertEquals(2, tuesdaySchedule.getDaySchedule().size());
     }
 
     @Test
@@ -123,7 +132,7 @@ class ScheduleTest {
         tuesdaySchedule.addDanceClass(danceClass4);
         tuesdaySchedule.addDanceClass(danceClass5);
 
-        assertEquals(5, tuesdaySchedule.size());
+        assertEquals(5, tuesdaySchedule.getDaySchedule().size());
 
         assertEquals(danceClass4, tuesdaySchedule.getDanceClass(0));
         assertEquals(danceClass2, tuesdaySchedule.getDanceClass(1));
@@ -145,7 +154,7 @@ class ScheduleTest {
         assertEquals(danceClass2, tuesdaySchedule.getDanceClass(1));
         assertEquals(danceClass3, tuesdaySchedule.getDanceClass(2));
 
-        assertEquals(3, tuesdaySchedule.size());
+        assertEquals(3, tuesdaySchedule.getDaySchedule().size());
     }
     @Test
     public void removeDanceClassMultiple() {
@@ -160,6 +169,6 @@ class ScheduleTest {
         assertEquals(danceClass2, tuesdaySchedule.getDanceClass(0));
         assertEquals(danceClass3, tuesdaySchedule.getDanceClass(1));
 
-        assertEquals(2, tuesdaySchedule.size());
+        assertEquals(2, tuesdaySchedule.getDaySchedule().size());
     }
 }

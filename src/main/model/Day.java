@@ -52,11 +52,6 @@ public class Day {
         daySchedule.remove(danceClass);
     }
 
-    // EFFECT: returns the number of classes in that day
-    public int size() {
-        return daySchedule.size();
-    }
-
     // EFFECT: returns dance class at that index
     public DanceClass getDanceClass(int index) {
         return daySchedule.get(index);
