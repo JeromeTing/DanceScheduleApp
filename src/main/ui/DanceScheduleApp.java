@@ -109,7 +109,7 @@ public class DanceScheduleApp {
                 System.out.println(c.getDifficultyLevel() + " " + c.getClassName());
                 System.out.println("Time: " + c.getTime());
                 System.out.println("Teacher: " + c.getTeacherName());
-                System.out.println("Number of students registered:" + c.sizeOfClass());
+                System.out.println("Number of students registered: " + c.sizeOfClass());
                 System.out.println("\n");
             }
         }
@@ -153,12 +153,12 @@ public class DanceScheduleApp {
         displayDaySchedule(dayName);
         System.out.println("What time is the class you want to change?");
         DanceClass danceClass = findDanceClass(dayName);
+        input.nextLine();
 
         danceClass.setClassName(addClassName("What is the name of the new class?"));
-        input.next();
         danceClass.setTime(addTime("What is the new time?"));
+        input.nextLine();
         danceClass.setTeacherName(addTeacherName("What is the new teacher's name?"));
-        input.next();
         danceClass.setDifficultyLevel(addDifficultyLevel("What is the new difficulty level?"));
 
         System.out.println("The class has been updated!");
@@ -252,7 +252,7 @@ public class DanceScheduleApp {
 
     // EFFECT: takes the user input and returns that string for the level difficulty of the class
     private String addDifficultyLevel(String s) {
-        System.out.println(s + "(Open, Intro, Intermediate, or Advanced)");
+        System.out.println(s + " (Open, Intro, Intermediate, or Advanced)");
         return input.nextLine();
     }
 
@@ -298,9 +298,7 @@ public class DanceScheduleApp {
 
                 System.out.println("Student removed!");
             }
-            System.out.println("No student is registered in that class!");
         }
-        System.out.println("No student can be removed!");
     }
 
     private Student findStudentInClass(DanceClass danceClass) {
