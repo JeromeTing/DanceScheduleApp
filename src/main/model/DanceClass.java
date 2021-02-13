@@ -46,6 +46,10 @@ public class DanceClass {
         return difficultyLevel;
     }
 
+    public List<Student> getRegisteredStudents() {
+        return registeredStudents;
+    }
+
     // setters
     public void setClassName(String className) {
         this.className = className;
@@ -85,6 +89,14 @@ public class DanceClass {
             return true;
         }
         return false;
+    }
+
+    /* REQUIRES: Student is registered in the class
+     * MODIFIES: this
+     * EFFECTS: removes the student from the dance class
+     */
+    public void removeStudent(Student student) {
+        registeredStudents.remove(student);
     }
 
 }

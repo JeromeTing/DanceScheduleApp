@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ScheduleTest {
+class DanceScheduleTest {
 
     private DanceClass danceClass1;
     private DanceClass danceClass2;
@@ -125,6 +125,26 @@ class ScheduleTest {
         assertTrue(danceClass1.isStudentRegistered(jerome));
     }
 
+    @Test
+    public void testRemoveStudentOneStudent() {
+        assertTrue(danceClass1.registerStudent(jon));
+        danceClass1.removeStudent(jon);
+
+        assertEquals(0, danceClass1.getRegisteredStudents().size());
+    }
+
+    @Test
+    public void testRemoveMultipleStudents() {
+        assertTrue(danceClass1.registerStudent(jon));
+        assertTrue(danceClass1.registerStudent(bella));
+        assertTrue(danceClass1.registerStudent(josh));
+
+        danceClass1.removeStudent(jon);
+        danceClass1.removeStudent(josh);
+
+        assertEquals(1, danceClass1.sizeOfClass());
+        assertEquals(bella, danceClass1.getRegisteredStudents().get(0));
+    }
 
     @Test
     public void testRegisterStudentMultipleStudentsMax() {
