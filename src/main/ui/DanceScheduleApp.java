@@ -85,8 +85,8 @@ public class DanceScheduleApp {
     //          back to main start instructions
     private void processStudentCommand() {
         System.out.println("Type:");
-        System.out.println("'register' to register a student from a class");
-        System.out.println("'remove' to remove a student from a class");
+        System.out.println("\t'register' to register a student from a class");
+        System.out.println("\t'remove' to remove a student from a class");
 
         String studentCommand = input.next();
 
@@ -130,8 +130,9 @@ public class DanceScheduleApp {
 
     // EFFECT: prints out the students registered in the class
     private void displayStudents(DanceClass danceClass) {
+        System.out.println("Student's registered in the class:");
         for (Student s: danceClass.getRegisteredStudents()) {
-            System.out.println(s.getName() + ": " + s.getMembershipNumber());
+            System.out.println("\t" + s.getName() + ": " + s.getMembershipNumber());
         }
     }
 
@@ -255,18 +256,23 @@ public class DanceScheduleApp {
         return input.nextLine();
     }
 
+    // EFFECT: returns the name of a student
+    private String inputStudentName() {
+        input.nextLine();
+        System.out.println("What is the student's name?");
+        return input.nextLine();
+    }
+
     // MODIFIES: this
     // EFFECT: Creates a new student and registers them into a dance class
     private void registerStudentToClass() {
-        int membership;
         Student student;
 
-        System.out.println("What is the student's name?");
-        input.next();
-        String studentName = input.nextLine();
+        String studentName = inputStudentName();
+
         displayMembershipInstructions();
 
-        membership = handleMembershipCommand();
+        int membership = handleMembershipCommand();
 
         if (membership == -1) {
             System.out.println("What is the membership number?");
@@ -328,6 +334,7 @@ public class DanceScheduleApp {
             danceClass.registerStudent(student);
 
             System.out.println("Student registered!");
+            displayStudents(danceClass);
         }
 
         if (dayName.getDaySchedule().isEmpty()) {

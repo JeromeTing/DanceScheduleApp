@@ -19,3 +19,5 @@ take their classes. This is especially important during this global pandemic whe
 - as a user, I want to be able to remove classes from a schedule
 - as a user, I want to be able to register students for classes
 - as a user, I want to be able to see the schedule for the week
+- as a user, I want to be able to remove students from classes
+- as a user, I want to be able to change a dance class' details
