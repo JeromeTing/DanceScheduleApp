@@ -88,9 +88,7 @@ public class DanceScheduleApp {
         System.out.println("\t'register' to register a student from a class");
         System.out.println("\t'remove' to remove a student from a class");
 
-        String studentCommand = input.next();
-
-        studentCommand.toLowerCase();
+        String studentCommand = input.next().toLowerCase();
 
         if (studentCommand.equals("register")) {
             registerStudentToClass();
@@ -101,11 +99,11 @@ public class DanceScheduleApp {
 
     // EFFECTS: prints the Weekly schedule
     private void displaySchedule() {
-        for (Day day: week.getWeeklySchedule()) {
+        for (Day day : week.getWeeklySchedule()) {
 
             System.out.println("\n" + day.getDayName() + ":" + "\n");
 
-            for (DanceClass c: day.getDaySchedule()) {
+            for (DanceClass c : day.getDaySchedule()) {
                 System.out.println(c.getDifficultyLevel() + " " + c.getClassName());
                 System.out.println("Time: " + c.getTime());
                 System.out.println("Teacher: " + c.getTeacherName());
@@ -119,7 +117,7 @@ public class DanceScheduleApp {
     private void displayDaySchedule(Day day) {
         System.out.println("\n" + day.getDayName() + ":" + "\n");
 
-        for (DanceClass c: day.getDaySchedule()) {
+        for (DanceClass c : day.getDaySchedule()) {
             System.out.println(c.getDifficultyLevel() + " " + c.getClassName());
             System.out.println("Time: " + c.getTime());
             System.out.println("Teacher: " + c.getTeacherName());
@@ -128,11 +126,22 @@ public class DanceScheduleApp {
         }
     }
 
-    // EFFECT: prints out the students registered in the class
+    // EFFECTS: prints out the students registered in the class
     private void displayStudents(DanceClass danceClass) {
         System.out.println("Student's registered in the class:");
-        for (Student s: danceClass.getRegisteredStudents()) {
-            System.out.println("\t" + s.getName() + ": " + s.getMembershipNumber());
+        for (Student s : danceClass.getRegisteredStudents()) {
+            System.out.println("\t" + s.getName() + ": " + displayMembershipNumberStatus(s));
+        }
+    }
+
+    // EFFECTS: returns membership number as string if the student is a member, else return "No membership"
+    private String displayMembershipNumberStatus(Student s) {
+        int membershipNum;
+        if (s.getMembershipNumber() == 0) {
+            return "No membership";
+        } else {
+            membershipNum = s.getMembershipNumber();
+            return String.valueOf(membershipNum);
         }
     }
 
