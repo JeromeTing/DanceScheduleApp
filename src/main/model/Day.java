@@ -5,9 +5,8 @@ import java.util.List;
 
 // Represents the schedule a day of the week, where it has a day name and a list of dance classes
 public class Day {
-    private List<DanceClass> daySchedule;
-    private String dayName;
-    private DanceClass danceClass;
+    private List<DanceClass> daySchedule;           // List of DanceClasses in a day
+    private String dayName;                         // Name of the day
 
     // EFFECT: creates an empty list of dance classes in a day
     public Day(String day) {

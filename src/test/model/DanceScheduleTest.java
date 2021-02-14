@@ -101,10 +101,9 @@ class DanceScheduleTest {
         danceClass1.setTeacherName("Jane");
         danceClass1.setClassName("Krump");
         danceClass1.setDifficultyLevel("Open");
-        danceClass1.setTime(1900);
 
         assertEquals("Krump", danceClass1.getClassName());
-        assertEquals(1900, danceClass1.getTime());
+        assertEquals(1930, danceClass1.getTime());
         assertEquals("Jane", danceClass1.getTeacherName());
         assertEquals("Open", danceClass1.getDifficultyLevel());
     }

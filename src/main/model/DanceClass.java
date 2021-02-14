@@ -1,13 +1,11 @@
 package model;
 
-import model.Student;
-
 import java.util.ArrayList;
 import java.util.List;
 
 // represents a dance class that has a class name, a time, a teacher's name, and difficulty level
 public class DanceClass {
-    private int maxStudents = 15;
+    public static final int MAX_STUDENTS = 15;  // Maximum number of students allowed in a class
 
     private String className;                   // name of dance class
     private int time;                           // time of class as 2400
@@ -18,8 +16,8 @@ public class DanceClass {
 
     /* REQUIRES: className, teacherName, and difficultyLevel must be a string length > 0.
      *           time must be an integer [0, 2400].
-     * EFFECTS: constructs a dance class, where the class name, time and ay, teacher name and difficulty
-     *          level are specified
+     * EFFECTS: constructs a dance class, where the class name, time, teacher name, and difficulty
+     *          level are given
      */
     public DanceClass(String className, int time, String teacherName, String difficultyLevel) {
         this.className = className;
@@ -55,10 +53,6 @@ public class DanceClass {
         this.className = className;
     }
 
-    public void setTime(int time) {
-        this.time = time;
-    }
-
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
     }
@@ -78,13 +72,13 @@ public class DanceClass {
         return registeredStudents.contains(student);
     }
 
-    /* REQUIRES: Student cannot be registered in the class
+    /* REQUIRES: Student cannot be registered in the class already
      * MODIFIES: this
      * EFFECTS: registers the student for the class if there is less than maxParticipants
      * and produces true if successful. Otherwise produce false.
      */
     public boolean registerStudent(Student student) {
-        if (registeredStudents.size() < maxStudents && !registeredStudents.contains(student)) {
+        if (registeredStudents.size() < MAX_STUDENTS && !registeredStudents.contains(student)) {
             registeredStudents.add(student);
             return true;
         }

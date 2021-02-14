@@ -13,8 +13,8 @@ import java.util.Scanner;
 // Dance schedule application
 public class DanceScheduleApp {
 
-    private WeeklySchedule week;
-    private Scanner input;
+    private WeeklySchedule week;            // Weekly schedule
+    private Scanner input;                  // initial scanner input by the user
 
     //EFFECTS: runs the dance schedule app
     public DanceScheduleApp() {
@@ -62,7 +62,8 @@ public class DanceScheduleApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: processes the users command or will notify that an invalid command was entered
+    // EFFECTS: processes the users command or will notify that an invalid command was entered,
+    //          if no valid command is entered, prints "Try a valid command"
     private void processCommand(String command) {
         if (command.equals("s")) {
             displaySchedule();
@@ -82,7 +83,7 @@ public class DanceScheduleApp {
 
     // MODIFIES: this
     // EFFECTS: processes the command to register/remove a student from a class, if invalid nothing occurs and goes
-    //          back to main start instructions
+    //          back to main start instructions (with a printed error message)
     private void processStudentCommand() {
         System.out.println("Type:");
         System.out.println("\t'register' to register a student from a class");
@@ -94,26 +95,23 @@ public class DanceScheduleApp {
             registerStudentToClass();
         } else if (studentCommand.equals("remove")) {
             removeStudentFromClass();
+        } else {
+            System.out.println("Not a valid command, going back to start menu");
         }
     }
 
-    // EFFECTS: prints the Weekly schedule
+    // EFFECTS: prints the Weekly schedule (Each day and its classes)
     private void displaySchedule() {
         for (Day day : week.getWeeklySchedule()) {
 
             System.out.println("\n" + day.getDayName() + ":" + "\n");
 
-            for (DanceClass c : day.getDaySchedule()) {
-                System.out.println(c.getDifficultyLevel() + " " + c.getClassName());
-                System.out.println("Time: " + c.getTime());
-                System.out.println("Teacher: " + c.getTeacherName());
-                System.out.println("Number of students registered: " + c.sizeOfClass());
-                System.out.println("\n");
-            }
+            displayDaySchedule(day);
         }
     }
 
-    // EFFECT: prints out the current weekly schedule for Monday to Friday (with all the classes listed in each)
+    // EFFECT: Given a Day prints out the current weekly schedule for Monday to Sunday (with all the
+    //         classes listed in each)
     private void displayDaySchedule(Day day) {
         System.out.println("\n" + day.getDayName() + ":" + "\n");
 
@@ -126,7 +124,7 @@ public class DanceScheduleApp {
         }
     }
 
-    // EFFECTS: prints out the students registered in the class
+    // EFFECTS: given a DanceClass prints out the students registered in the class
     private void displayStudents(DanceClass danceClass) {
         System.out.println("There are" + danceClass.sizeOfClass() + "registered in the class:");
         for (Student s : danceClass.getRegisteredStudents()) {
@@ -134,7 +132,8 @@ public class DanceScheduleApp {
         }
     }
 
-    // EFFECTS: returns membership number as string if the student is a member, else return "No membership"
+    // EFFECTS: given a student, returns membership number as string if the student is a member,
+    //          else return "No membership"
     private String displayMembershipNumberStatus(Student s) {
         int membershipNum;
         if (s.getMembershipNumber() == 0) {
@@ -182,7 +181,7 @@ public class DanceScheduleApp {
         }
     }
 
-    // EFFECT: Returns a dance class from a specified time
+    // EFFECT: Given a Day, returns a dance class from a specified time
     private DanceClass findDanceClass(Day dayName) {
         int time = addTime();
 
@@ -247,13 +246,14 @@ public class DanceScheduleApp {
         //
     }
 
-    // EFFECT: takes the user input and returns that string for the class name
+    // EFFECT: Given an appropriate string to be displayed for appropriate decision, displays that message and
+    //         takes the user input and returns that string for the class name
     private String addClassName(String s) {
         System.out.println(s + " (Hip Hop, Waacking etc)");
         return input.nextLine();
     }
 
-    // EFFECT: takes the user input and returns time as an into between 0 to 2400
+    // EFFECT: takes the user input and returns time as an int between 0 to 2400
     private int addTime() {
         int time = -1;
         while (time < 0 || time > 2400) {
@@ -271,7 +271,8 @@ public class DanceScheduleApp {
         return time;
     }
 
-    // EFFECT: takes the user input and returns that string for a teacher's name
+    // EFFECT: Given appropriate display message as a string, prints that message and
+    //         takes the user input and returns that string for a teacher's name
     private String addTeacherName(String s) {
         System.out.println(s);
         return input.nextLine();
@@ -310,8 +311,9 @@ public class DanceScheduleApp {
     }
 
     // MODIFIES: this
-    // EFFECT: removes a student from a danceClass by finding their membership number, if no student is registered
-    //          in the class, then nothing occurs
+    // EFFECT: removes a student from a danceClass by finding their membership number. If no student is registered
+    //          in the class (class size of 0), or if no classes are on that day (Day is empty),
+    //          then nothing occurs and an appropriate error message is printed
     private void removeStudentFromClass() {
         Day dayName = pickDay();
 
@@ -333,7 +335,8 @@ public class DanceScheduleApp {
         }
     }
 
-    // EFFECT: Looks for a student by their membership number and returns a student from a DanceClass
+    // EFFECT: Looks for a student by their membership number and returns a student from a DanceClass.
+    //          If membership number not found, prints appropriate message
     private Student findStudentInClass(DanceClass danceClass) {
         displayStudents(danceClass);
         while (true) {
@@ -350,7 +353,8 @@ public class DanceScheduleApp {
 
 
     // MODIFIES: this
-    // EFFECT: Registers a student to a dance class
+    // EFFECT: Registers a given student to a dance class. If dance class or day is empty, prints appropriate
+    //          message
     private void registerStudent(Student student) {
         input.nextLine();
 
@@ -394,7 +398,8 @@ public class DanceScheduleApp {
         }
     }
 
-    // EFFECT: returns an int that is a match for the index of the week (0 to 6), if no strings match then returns -1
+    // EFFECT: given a string, returns an int that is a match for the index of the week (0 to 6). If no strings
+    //         match then returns -1
     private int matchDayWithInt(String dayName) {
         if (dayName.equals("monday")) {
             return 0;

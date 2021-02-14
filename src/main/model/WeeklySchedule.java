@@ -6,7 +6,7 @@ import java.util.List;
 // Represents the schedule for the entire week (Monday to Friday)
 public class WeeklySchedule {
 
-    private final List<Day> weeklySchedule;
+    private final List<Day> weeklySchedule;         // List of Days in a week
 
     //EFFECTS: creates a weekly schedule that is an array, where the days of the week are added
     //          by default (Monday to Friday)
