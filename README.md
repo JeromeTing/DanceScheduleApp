@@ -1,10 +1,11 @@
 # Dance Studio Scheduling Application
 
 ## Aim
-This application:
+This application's aim to manage dance classes and students in a weekly schedule.
+The application:
  - will schedule dance classes (add and remove) to a calendar 
  - provide information about the classes
- - allow the dance studio to register students to those classes
+ - allow the dance studio to register/remove students to those classes
   - provide a visualization of the dance schedule. 
 
 This application will be used by the dance studio and its administration team.
