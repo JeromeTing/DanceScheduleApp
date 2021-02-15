@@ -104,8 +104,6 @@ public class DanceScheduleApp {
     private void displaySchedule() {
         for (Day day : week.getWeeklySchedule()) {
 
-            System.out.println("\n" + day.getDayName() + ":" + "\n");
-
             displayDaySchedule(day);
         }
     }
@@ -126,7 +124,7 @@ public class DanceScheduleApp {
 
     // EFFECTS: given a DanceClass prints out the students registered in the class
     private void displayStudents(DanceClass danceClass) {
-        System.out.println("There are" + danceClass.sizeOfClass() + "registered in the class:");
+        System.out.println("There are " + danceClass.sizeOfClass() + " registered in the class:");
         for (Student s : danceClass.getRegisteredStudents()) {
             System.out.println("\t" + s.getName() + ": " + displayMembershipNumberStatus(s));
         }
@@ -328,7 +326,7 @@ public class DanceScheduleApp {
 
                 System.out.println("Student removed!");
             } else if (danceClass.sizeOfClass() == 0) {
-                System.out.println("Not student can be removed!");
+                System.out.println("No student can be removed!");
             }
         } else if (dayName.getDaySchedule().isEmpty()) {
             System.out.println("No classes are on this day!");
@@ -340,13 +338,13 @@ public class DanceScheduleApp {
     private Student findStudentInClass(DanceClass danceClass) {
         displayStudents(danceClass);
         while (true) {
-            System.out.println("What is the membership number of the student you want to remove?");
-            int membershipNum = input.nextInt();
+            System.out.println("What is the name of the student you want to remove? (Case Sensitive)");
+            String nameOfStudent = input.nextLine();
             for (Student s : danceClass.getRegisteredStudents()) {
-                if (s.getMembershipNumber() == membershipNum) {
+                if (s.getName().equals(nameOfStudent)) {
                     return s;
                 }
-                System.out.println("No student of that number found");
+                System.out.println("No student of that name found");
             }
         }
     }
