@@ -344,8 +344,8 @@ public class DanceScheduleApp {
                 if (s.getName().equals(nameOfStudent)) {
                     return s;
                 }
-                System.out.println("No student of that name found");
             }
+            System.out.println("No student of that name found");
         }
     }
 
