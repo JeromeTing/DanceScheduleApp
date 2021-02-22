@@ -22,3 +22,6 @@ take their classes. This is especially important during this global pandemic whe
 - as a user, I want to be able to see the schedule for the week
 - as a user, I want to be able to remove students from classes
 - as a user, I want to be able to change a dance class' details
+
+- as a user, I want to be able to save my dance schedule to file
+- as a user, I want to be able to load my dane schedule from file
