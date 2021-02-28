@@ -2,19 +2,27 @@ package ui;
 
 // Dance schedule application
 // Parts of this class was based and inspired by the TellerApp and GymKioskApp
+// Saving and loading portions based on (https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git)
 
 import model.DanceClass;
 import model.Day;
 import model.Student;
 import model.WeeklySchedule;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 // Dance schedule application
 public class DanceScheduleApp {
+    private String JSON_STORE = "./data/weeklyschedule.json";
 
     private WeeklySchedule week;            // Weekly schedule
     private Scanner input;                  // initial scanner input by the user
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     //EFFECTS: runs the dance schedule app
     public DanceScheduleApp() {
@@ -48,16 +56,19 @@ public class DanceScheduleApp {
     private void initialize() {
         week = new WeeklySchedule();
         input = new Scanner(System.in);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     // EFFECTS: shows the start menu to the user
     private void displayStartInstructions() {
         System.out.println("\nWhat would you like to do?:");
-        System.out.println("\ts: Show Schedule");
+        System.out.println("\td: Display Schedule");
         System.out.println("\ta: Add Class");
         System.out.println("\tc: Change Class Details");
         System.out.println("\tx: Remove Class");
         System.out.println("\tr: Register/Remove Student from a class");
+        System.out.println(("\ts: Save/Load Weekly Schedule from file"));
         System.out.print("\tq: Quit Application\n");
     }
 
@@ -65,7 +76,7 @@ public class DanceScheduleApp {
     // EFFECTS: processes the users command or will notify that an invalid command was entered,
     //          if no valid command is entered, prints "Try a valid command"
     private void processCommand(String command) {
-        if (command.equals("s")) {
+        if (command.equals("d")) {
             displaySchedule();
         } else if (command.equals("a")) {
             addClassToSchedule("added");
@@ -75,6 +86,8 @@ public class DanceScheduleApp {
             processStudentCommand();
         } else if (command.equals("x")) {
             removeClassFromSchedule();
+        } else if (command.equals("s")) {
+            saveLoadCommand();
         } else {
             System.out.println("Try a valid command");
         }
@@ -416,6 +429,58 @@ public class DanceScheduleApp {
         } else {
             System.out.println("You didn't write a valid day");
             return -1;
+        }
+    }
+
+    // EFFECT: Processes the commond for save/load from main menu
+    private void saveLoadCommand() {
+        String command;
+
+        displaySaveLoad();
+
+        command = input.next();
+        command = command.toLowerCase();
+        processSaveLoadCommand(command);
+    }
+
+    // EFFECT: Displays the commands for saving and loading weekly dance schedule to file
+    private void displaySaveLoad() {
+        System.out.println("\nPress the follow:");
+        System.out.println("\ts: Save weekly dance schedule to file");
+        System.out.println("\tl: Load weekly dance schedule to file");
+    }
+
+    // EFFECT: processes the save or load command from the sub save/load menu
+    private void processSaveLoadCommand(String command) {
+        if (command.equals("s")) {
+            saveWeeklySchedule();
+        } else if (command.equals("l")) {
+            loadWeeklySchedule();
+        } else {
+            System.out.println("Try a valid command");
+        }
+    }
+
+    // EFFECT: saves weekly schedule to file
+    private void saveWeeklySchedule() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(week);
+            jsonWriter.close();
+            System.out.println("Saved weekly dance schedule to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECT: loads weekly schedule fromm file
+    private void loadWeeklySchedule() {
+        try {
+            week = jsonReader.read();
+            System.out.println("Loaded weekly dance schedule from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 }

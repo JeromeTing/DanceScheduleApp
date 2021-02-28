@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // represents a dance class that has a class name, a time, a teacher's name, and difficulty level
-public class DanceClass {
+public class DanceClass implements Writable {
     public static final int MAX_STUDENTS = 15;  // Maximum number of students allowed in a class
 
     private String className;                   // name of dance class
@@ -93,4 +97,24 @@ public class DanceClass {
         registeredStudents.remove(student);
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("className", className);
+        json.put("time", time);
+        json.put("teacherName", teacherName);
+        json.put("difficultLevel", difficultyLevel);
+        json.put("registeredStudents", studentsToJson());
+        return json;
+    }
+
+    //EFFECTS: returns students in this danceClass to a JSON array
+    private JSONArray studentsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Student s: registeredStudents) {
+            jsonArray.put(s.toJson());
+        }
+        return jsonArray;
+    }
 }

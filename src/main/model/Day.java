@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents the schedule a day of the week, where it has a day name and a list of dance classes
-public class Day {
+public class Day implements Writable {
     private List<DanceClass> daySchedule;           // List of DanceClasses in a day
     private String dayName;                         // Name of the day
 
@@ -60,5 +64,23 @@ public class Day {
     // EFFECT: returns dance class at that index
     public DanceClass getDanceClass(int index) {
         return daySchedule.get(index);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("day", dayName);
+        json.put("daySchedule", dayScheduleToJson());
+        return json;
+    }
+
+    //EFFECTS: returns danceClasses in daySchedule as JSON array
+    private JSONArray dayScheduleToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (DanceClass dc: daySchedule) {
+            jsonArray.put(dc.toJson());
+        }
+        return jsonArray;
     }
 }

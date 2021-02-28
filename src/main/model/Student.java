@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents a student which has a name, and a membership number
-public class Student {
+public class Student implements Writable {
     private String name;            // name of the student
     private int membershipNumber;   // membership number of the student, if not a member input 0
 
@@ -19,5 +23,13 @@ public class Student {
 
     public int getMembershipNumber() {
         return membershipNumber;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("membershipNumber", membershipNumber);
+        return json;
     }
 }

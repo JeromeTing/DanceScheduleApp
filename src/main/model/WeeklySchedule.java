@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents the schedule for the entire week (Monday to Friday)
-public class WeeklySchedule {
+public class WeeklySchedule implements Writable {
 
     private final List<Day> weeklySchedule;         // List of Days in a week
 
@@ -35,4 +39,20 @@ public class WeeklySchedule {
         return weeklySchedule;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("days", daysToJson());
+        return json;
+    }
+
+    private JSONArray daysToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Day d: weeklySchedule) {
+            jsonArray.put(d.toJson());
+        }
+
+        return jsonArray;
+    }
 }
