@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 // Dance schedule application
 public class DanceScheduleApp {
-    private String JSON_STORE = "./data/weeklyschedule.json";
+    private String jsonStore = "./data/weeklyschedule.json";
 
     private WeeklySchedule week;            // Weekly schedule
     private Scanner input;                  // initial scanner input by the user
@@ -56,8 +56,8 @@ public class DanceScheduleApp {
     private void initialize() {
         week = new WeeklySchedule();
         input = new Scanner(System.in);
-        jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
+        jsonWriter = new JsonWriter(jsonStore);
+        jsonReader = new JsonReader(jsonStore);
     }
 
     // EFFECTS: shows the start menu to the user
@@ -467,9 +467,9 @@ public class DanceScheduleApp {
             jsonWriter.open();
             jsonWriter.write(week);
             jsonWriter.close();
-            System.out.println("Saved weekly dance schedule to " + JSON_STORE);
+            System.out.println("Saved weekly dance schedule to " + jsonStore);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
+            System.out.println("Unable to write to file: " + jsonStore);
         }
     }
 
@@ -478,9 +478,9 @@ public class DanceScheduleApp {
     private void loadWeeklySchedule() {
         try {
             week = jsonReader.read();
-            System.out.println("Loaded weekly dance schedule from " + JSON_STORE);
+            System.out.println("Loaded weekly dance schedule from " + jsonStore);
         } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
+            System.out.println("Unable to read from file: " + jsonStore);
         }
     }
 }
