@@ -1,0 +1,57 @@
+{"days": [
+    {
+        "daySchedule": [
+            {
+                "registeredStudents": [],
+                "teacherName": "Erik",
+                "className": "Hip Hop",
+                "time": 1200,
+                "difficultLevel": "Open"
+            },
+            {
+                "registeredStudents": [{
+                    "membershipNumber": 100,
+                    "name": "Jerome"
+                }],
+                "teacherName": "Amie",
+                "className": "Waacking",
+                "time": 1400,
+                "difficultLevel": "Intermediate"
+            }
+        ],
+        "day": "Monday"
+    },
+    {
+        "daySchedule": [],
+        "day": "Tuesday"
+    },
+    {
+        "daySchedule": [],
+        "day": "Wednesday"
+    },
+    {
+        "daySchedule": [],
+        "day": "Thursday"
+    },
+    {
+        "daySchedule": [{
+            "registeredStudents": [{
+                "membershipNumber": 0,
+                "name": "Jon"
+            }],
+            "teacherName": "Squidjit",
+            "className": "Popping",
+            "time": 1600,
+            "difficultLevel": "Advanced"
+        }],
+        "day": "Friday"
+    },
+    {
+        "daySchedule": [],
+        "day": "Saturday"
+    },
+    {
+        "daySchedule": [],
+        "day": "Sunday"
+    }
+]}
