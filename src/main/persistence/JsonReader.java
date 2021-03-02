@@ -63,7 +63,8 @@ public class JsonReader {
     }
 
     // MODIFIES: ws
-    // EFFECTS: parses dance classes from JSON object and adds them to respective day
+    // EFFECTS: parses dance classes from JSON object and adds them to respective day, also adds students if
+    // registered student list is not empty
     private void addDanceClasses(Day day, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray(("daySchedule"));
         String dayMatch = jsonObject.getString("day");
@@ -80,25 +81,24 @@ public class JsonReader {
                 day.addDanceClass(danceClass);
 
                 JSONArray jsonArrayStudents = classDetails.getJSONArray(("registeredStudents"));
-                addStudents(jsonArrayStudents, danceClass);
+                if (!jsonArrayStudents.isEmpty()) {
+                    addStudents(jsonArrayStudents, danceClass);
+                }
             }
         }
     }
 
     // MODIFIES: ws
-    // EFFECTS: parses students from JSON object and adds them to dance class if it's not empty, else does nothing
+    // EFFECTS: parses students from JSON object and adds them to dance class
     private void addStudents(JSONArray jsonArray, DanceClass danceClass) {
         for (Object json: jsonArray) {
             JSONObject studentDetails = (JSONObject) json;
 
-            if (!jsonArray.isEmpty()) {
+            String studentName = studentDetails.getString("name");
+            int membershipNum = studentDetails.getInt("membershipNumber");
+            Student student = new Student(studentName, membershipNum);
 
-                String studentName = studentDetails.getString("name");
-                int membershipNum = studentDetails.getInt("membershipNumber");
-                Student student = new Student(studentName, membershipNum);
-
-                danceClass.registerStudent(student);
-            }
+            danceClass.registerStudent(student);
         }
     }
 
