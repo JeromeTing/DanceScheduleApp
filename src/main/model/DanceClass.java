@@ -98,6 +98,8 @@ public class DanceClass implements Writable {
     }
 
     @Override
+    // EFFECTS: Creates a json object and puts the dance class details (className, time, teacherName, difficultyLevel,
+    // as well as the registered students to this object and returns it
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("className", className);

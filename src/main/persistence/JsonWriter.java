@@ -25,7 +25,8 @@ public class JsonWriter {
         writer = new PrintWriter(new File(destination));
     }
 
-    //
+    // MODIFIES: this
+    // EFFECTS: writes JSON representation of the WeeklyScheudle to file
     public void write(WeeklySchedule ws) {
         JSONObject json = ws.toJson();
         saveToFile(json.toString(TAB));

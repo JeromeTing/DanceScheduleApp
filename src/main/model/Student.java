@@ -25,6 +25,9 @@ public class Student implements Writable {
     }
 
     @Override
+
+    // EFFECTS: creates a json object and puts the name, and membershipNumber of the student to the object and
+    // returns it
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", name);

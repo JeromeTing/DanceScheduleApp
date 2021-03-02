@@ -18,7 +18,6 @@ import java.util.Scanner;
 // Dance schedule application
 public class DanceScheduleApp {
     private String jsonStore = "./data/weeklyschedule.json";
-
     private WeeklySchedule week;            // Weekly schedule
     private Scanner input;                  // initial scanner input by the user
     private JsonWriter jsonWriter;
@@ -52,7 +51,8 @@ public class DanceScheduleApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes the schedules for each day
+    // EFFECTS: initializes the schedules for each day, initializes a new scanner, as well as the Json writer
+    // and reader
     private void initialize() {
         week = new WeeklySchedule();
         input = new Scanner(System.in);
@@ -432,7 +432,7 @@ public class DanceScheduleApp {
         }
     }
 
-    // EFFECT: Processes the commond for save/load from main menu
+    // EFFECT: Processes the command for save/load from main menu
     private void saveLoadCommand() {
         String command;
 

@@ -40,6 +40,7 @@ public class WeeklySchedule implements Writable {
     }
 
     @Override
+    // EFFECTS: creates a json object and puts the days to the json object and returns it
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("days", daysToJson());

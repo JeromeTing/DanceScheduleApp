@@ -67,6 +67,7 @@ public class Day implements Writable {
     }
 
     @Override
+    // EFFECT: Creates a json object and puts the dayName and daySchedule to the object and returns it
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("day", dayName);
