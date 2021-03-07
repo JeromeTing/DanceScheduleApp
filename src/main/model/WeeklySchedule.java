@@ -47,6 +47,7 @@ public class WeeklySchedule implements Writable {
         return json;
     }
 
+    // EFFECTS: returns the days in a weeklySchedule as JSON array
     private JSONArray daysToJson() {
         JSONArray jsonArray = new JSONArray();
 
