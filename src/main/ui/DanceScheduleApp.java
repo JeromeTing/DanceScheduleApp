@@ -29,7 +29,7 @@ public class DanceScheduleApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: processes the user input for the initial start instructions
+    // EFFECTS: processes the user input for the initial start instructions and quit instructions (reminder to save)
     private void runDanceSchedule() {
         boolean isRunning = true;
         String command;
@@ -47,6 +47,10 @@ public class DanceScheduleApp {
                 processCommand(command);
             }
         }
+        displayReminderToSave();
+        command = input.next();
+        command = command.toLowerCase();
+        remindToSave(command);
         System.out.println("\nSee you Anytime Anywhere Anyplace");
     }
 
@@ -474,13 +478,31 @@ public class DanceScheduleApp {
     }
 
     // MODIFIES: this
-    // EFFECT: loads weekly schedule fromm file
+    // EFFECT: loads weekly schedule from file
     private void loadWeeklySchedule() {
         try {
             week = jsonReader.read();
             System.out.println("Loaded weekly dance schedule from " + jsonStore);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + jsonStore);
+        }
+    }
+
+    // EFFECT: displays reminder if user wants to save
+    private void displayReminderToSave() {
+        System.out.println("Would you like to save?");
+        System.out.println("\ty: yes");
+        System.out.println("\tn: no");
+    }
+
+    // MODIFIES: this
+    // EFFECT: processes user command, if "y" is selected saves weekly schedule to file with confirmation string
+    // if "n" is selected, no file is saved (with confirmation of no file saved)
+    private void remindToSave(String command) {
+        if (command.equals("y")) {
+            saveWeeklySchedule();
+        } else if (command.equals("n")) {
+            System.out.println("Weekly dance schedule was not saved");
         }
     }
 }
