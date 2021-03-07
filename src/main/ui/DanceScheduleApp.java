@@ -180,8 +180,8 @@ public class DanceScheduleApp {
         String answer = input.next().toLowerCase();
 
         if (answer.equals("n") || answer.equals("no")) {
-            danceClass.setClassName(addClassName("What is the name of the new class?"));
             input.nextLine();
+            danceClass.setClassName(addClassName("What is the name of the new class?"));
             danceClass.setTeacherName(addTeacherName("What is the new teacher's name?"));
             danceClass.setDifficultyLevel(addDifficultyLevel("What is the new difficulty level?"));
 
