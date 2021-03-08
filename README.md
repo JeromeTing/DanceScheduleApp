@@ -24,5 +24,5 @@ take their classes. This is especially important during this global pandemic whe
 - as a user, I want to be able to change a dance class' details
 
 - as a user, I want to be able to save my dance schedule to file
-- as a user, I want to be able to load my dane schedule from file
+- as a user, I want to be able to load my dance schedule from file
 - as a user, I want to have the option to save my dance schedule to file when I attempt to quit the application
