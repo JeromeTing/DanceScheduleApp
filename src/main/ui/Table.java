@@ -6,21 +6,35 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import model.WeeklySchedule;
 import model.DanceClass;
 import model.Day;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 public class Table extends JPanel {
-    WeeklySchedule weeklySchedule = new WeeklySchedule();
-    DefaultTableModel monTable;
-    DefaultTableModel tuesTable;
-    DefaultTableModel wedTable;
-    DefaultTableModel thurTable;
-    DefaultTableModel friTable;
-    DefaultTableModel satTable;
-    DefaultTableModel sunTable;
-    JButton addButton;
-    JButton removeButton;
+    private String jsonStore = "./data/weeklyschedule.json";
+
+    private JsonWriter jsonWriter = new JsonWriter(jsonStore);
+    private JsonReader jsonReader = new JsonReader(jsonStore);
+
+    private WeeklySchedule weeklySchedule = new WeeklySchedule();
+
+    private DefaultTableModel monTable;
+    private DefaultTableModel tuesTable;
+    private DefaultTableModel wedTable;
+    private DefaultTableModel thurTable;
+    private DefaultTableModel friTable;
+    private DefaultTableModel satTable;
+    private DefaultTableModel sunTable;
+
+    private JButton addButton;
+    private JButton removeButton;
+    private JButton saveButton;
+    private JButton loadButton;
 
 
 
@@ -41,12 +55,12 @@ public class Table extends JPanel {
     }
 
 
-    public Table() {
+    private Table() {
         super(new GridBagLayout());
         addPanes();
     }
 
-    public void addLabelConstraints(GridBagConstraints c, int i) {
+    private void addLabelConstraints(GridBagConstraints c, int i) {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 1;
         c.weightx = 0.0;
@@ -55,7 +69,7 @@ public class Table extends JPanel {
         c.gridy = i;
     }
 
-    public void addTableConstraints(GridBagConstraints c, int i) {
+    private void addTableConstraints(GridBagConstraints c, int i) {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 4;
         c.weightx = 0.0;
@@ -64,12 +78,12 @@ public class Table extends JPanel {
         c.gridy = i;
     }
 
-    public void initializeTable(JTable table) {
+    private void initializeTable(JTable table) {
         table.setPreferredScrollableViewportSize(new Dimension(600, 70));
         table.setFillsViewportHeight(true);
     }
 
-    public void addPanes() {
+    private void addPanes() {
         JTable table;
         GridBagConstraints labelConstraint = new GridBagConstraints();
         GridBagConstraints tableConstraint = new GridBagConstraints();
@@ -90,7 +104,7 @@ public class Table extends JPanel {
 
     }
 
-    public String findLabel(int i) {
+    private String findLabel(int i) {
         if (i == 0) {
             return "Monday";
         } else if (i == 2) {
@@ -110,11 +124,11 @@ public class Table extends JPanel {
         }
     }
 
-    public JTable findTable(int i) {
+    private JTable findTable(int i) {
         String[] col = {"Time", "Class Name", "Difficulty", "Teacher", "Number of Students"};
 
         if (i == 1) {
-            testingAddClasses();
+            //testingAddClasses();
             addDanceClassesToTable(0,monTable = new DefaultTableModel(col,0));
             return new JTable(monTable);
         } else if (i == 3) {
@@ -131,7 +145,7 @@ public class Table extends JPanel {
         }
     }
 
-    public JTable findTableFriToSun(int i) {
+    private JTable findTableFriToSun(int i) {
         String[] col = {"Time", "Class Name", "Difficulty", "Teacher", "Number of Students"};
 
         if  (i == 9) {
@@ -148,7 +162,7 @@ public class Table extends JPanel {
         }
     }
 
-    public void addDanceClassesToTable(int index, DefaultTableModel tableModel) {
+    private void addDanceClassesToTable(int index, DefaultTableModel tableModel) {
         Day day = weeklySchedule.getWeeklySchedule().get(index);
         for (DanceClass dc: day.getDaySchedule()) {
 
@@ -160,45 +174,87 @@ public class Table extends JPanel {
     }
 
 
-    public JPanel setUpButtons() {
+    private JPanel setUpButtons() {
         addButton = new JButton("Add Dance Class");
         removeButton = new JButton("Remove Dance Class");
+        saveButton = new JButton("Save");
+        loadButton = new JButton("Load");
+
 
         JPanel buttonArea = new JPanel();
         buttonArea.setLayout(new GridBagLayout());
         buttonArea.add(addButton);
         buttonArea.add(removeButton);
+        buttonArea.add(saveButton);
+        buttonArea.add(loadButton);
+
         processAddButton();
         processRemoveButton();
+        processSaveButton();
+        processLoadButton();
 
         return buttonArea;
     }
 
-    public void processAddButton() {
+    private void processAddButton() {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame addFrame = new JFrame();
                 addFrame.setVisible(true);
-                addFrame.setSize(new Dimension(250,500));
+                addFrame.setSize(new Dimension(250, 500));
                 initializeAddFrame(addFrame);
             }
         });
     }
 
-    public void processRemoveButton() {
-        removeButton.addActionListener((new ActionListener() {
+    private void processRemoveButton() {
+        removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame removeFrame = new JFrame();
                 removeFrame.setVisible(true);
-                removeFrame.setSize(new Dimension(250,250));
+                removeFrame.setSize(new Dimension(250, 500));
                 initializeRemoveFrame(removeFrame);
             }
-        }));
+        });
     }
 
-    public void initializeRemoveFrame(JFrame frame) {
+    private void processSaveButton() {
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    jsonWriter.open();
+                    jsonWriter.write(weeklySchedule);
+                    jsonWriter.close();
+                    System.out.println("Saved weekly dance schedule to " + jsonStore);
+                } catch (FileNotFoundException exception) {
+                    System.out.println("Unable to write to file: " + jsonStore);
+                }
+            }
+        });
+    }
+
+    private void processLoadButton() {
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    weeklySchedule = jsonReader.read();
+                    System.out.println("Loaded weekly dance schedule from " + jsonStore);
+                } catch (IOException exception) {
+                    System.out.println("Unable to read from file: " + jsonStore);
+                }
+                for (int i = 0; i < 7; i++) {
+                    updateTable(i);
+                }
+            }
+        });
+    }
+
+
+    private void initializeRemoveFrame(JFrame frame) {
         frame.setLayout(new GridLayout(5,0));
         JTextField weekday = new JTextField();
         JTextField time = new JTextField();
@@ -237,7 +293,7 @@ public class Table extends JPanel {
         }
     }
 
-    public void initializeAddFrame(JFrame frame) {
+    private void initializeAddFrame(JFrame frame) {
         frame.setLayout(new GridLayout(11,0));
         JTextField className = new JTextField();
         JTextField teacherName = new JTextField();
@@ -282,7 +338,7 @@ public class Table extends JPanel {
         }
     }
 
-    public void processSubmit(JButton submit, JTextField className,
+    private void processSubmit(JButton submit, JTextField className,
                               JTextField teacherName, JTextField difficultyLevel,
                               JTextField time, JTextField day) {
         submit.addActionListener(new ActionListener() {
@@ -299,7 +355,7 @@ public class Table extends JPanel {
         });
     }
 
-    public void updateTable(int d) {
+    private void updateTable(int d) {
         if (d == 0) {
             monTable.setRowCount(0);
             addDanceClassesToTable(0, monTable);
@@ -307,16 +363,16 @@ public class Table extends JPanel {
             tuesTable.setRowCount(0);
             addDanceClassesToTable(1, tuesTable);
         } else if (d == 2) {
-            monTable.setRowCount(0);
+            wedTable.setRowCount(0);
             addDanceClassesToTable(2, wedTable);
         } else if (d == 3) {
-            tuesTable.setRowCount(0);
+            thurTable.setRowCount(0);
             addDanceClassesToTable(3, thurTable);
         } else if (d == 4) {
-            monTable.setRowCount(0);
+            friTable.setRowCount(0);
             addDanceClassesToTable(4, friTable);
         } else if (d == 5) {
-            tuesTable.setRowCount(0);
+            satTable.setRowCount(0);
             addDanceClassesToTable(5, satTable);
         } else {
             sunTable.setRowCount(0);
@@ -324,8 +380,11 @@ public class Table extends JPanel {
         }
     }
 
-    public static void renderAndDisplayGUI() {
+
+
+    protected static void renderAndDisplayGUI() {
         JFrame frame = new JFrame("Weekly Dance Schedule");
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridBagLayout());
         GridBagConstraints tableConstraints = new GridBagConstraints();
