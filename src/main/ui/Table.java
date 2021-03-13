@@ -10,6 +10,14 @@ import model.Day;
 
 public class Table extends JPanel {
     WeeklySchedule weeklySchedule = new WeeklySchedule();
+    JTable monTable = new JTable();
+    JTable tuesTable = new JTable();
+    JTable wedTable = new JTable();
+    JTable thurTable = new JTable();
+    JTable friTable = new JTable();
+    JTable satTable = new JTable();
+    JTable sunTable = new JTable();
+
 
 
     public void testingAddClasses() {
@@ -25,114 +33,137 @@ public class Table extends JPanel {
         monday.addDanceClass(danceClass3);
         monday.addDanceClass(danceClass4);
         monday.addDanceClass(danceClass5);
-        monday.addDanceClass(danceClass5);
         monday.addDanceClass(danceClass6);
     }
 
 
     public Table() {
-        super(new GridLayout(14, 0));
-
-        String[] col = {"Time", "Class Name", "Difficulty", "Teacher", "Number of Students"};
-
-        DefaultTableModel mondayTable = new DefaultTableModel(col,0);
-        testingAddClasses();
-        addDanceClassesToTable(0,mondayTable);
-
-        DefaultTableModel tuesdayTable = new DefaultTableModel(col,0);
-        addDanceClassesToTable(1,tuesdayTable);
-
-        DefaultTableModel wednesdayTable = new DefaultTableModel(col,0);
-        addDanceClassesToTable(2,wednesdayTable);
-
-        DefaultTableModel thursdayTable = new DefaultTableModel(col,0);
-        addDanceClassesToTable(3,thursdayTable);
-
-        DefaultTableModel fridayTable = new DefaultTableModel(col,0);
-        addDanceClassesToTable(4,fridayTable);
-
-        DefaultTableModel saturdayTable = new DefaultTableModel(col,0);
-        addDanceClassesToTable(5,saturdayTable);
-
-        DefaultTableModel sundayTable = new DefaultTableModel(col,0);
-        addDanceClassesToTable(6,sundayTable);
-
-        createJTableForWeek(mondayTable,tuesdayTable,wednesdayTable,thursdayTable,fridayTable,saturdayTable,sundayTable);
+        super(new GridBagLayout());
+        addPanes();
     }
 
-    public void createJTableForWeek(DefaultTableModel m, DefaultTableModel t, DefaultTableModel w,
-                                    DefaultTableModel th, DefaultTableModel f, DefaultTableModel sa,
-                                    DefaultTableModel su) {
-        JTable mondayTable = new JTable(m);
-        JTable tuesdayTable = new JTable(t);
-        JTable wednesdayTable = new JTable(w);
-        JTable thursdayTable = new JTable(th);
-        JTable fridayTable = new JTable(f);
-        JTable saturdayTable = new JTable(sa);
-        JTable sundayTable = new JTable(su);
+    public void addLabelConstraints(GridBagConstraints c, int i) {
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 10;
+        c.weightx = 0.0;
+        c.gridwidth = 3;
+        c.gridx = 0;
+        c.gridy = i;
+    }
 
-        initializeTable(mondayTable);
-        initializeTable(tuesdayTable);
-        initializeTable(wednesdayTable);
-        initializeTable(thursdayTable);
-        initializeTable(fridayTable);
-        initializeTable(saturdayTable);
-        initializeTable(sundayTable);
-
-        addPanes(mondayTable, tuesdayTable, wednesdayTable, thursdayTable, fridayTable, saturdayTable, sundayTable);
-
+    public void addTableConstraints(GridBagConstraints c, int i) {
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 40;
+        c.weightx = 0.0;
+        c.gridwidth = 3;
+        c.gridx = 0;
+        c.gridy = i;
     }
 
     public void initializeTable(JTable table) {
-        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        table.setPreferredScrollableViewportSize(new Dimension(600, 70));
         table.setFillsViewportHeight(true);
     }
 
-    public void addPanes(JTable m, JTable t, JTable w, JTable th, JTable f, JTable sa, JTable su) {
-        JScrollPane mondayScrollPane = new JScrollPane(m);
-        JScrollPane tuesdayScrollPane = new JScrollPane(t);
-        JScrollPane wednesdayScrollPane = new JScrollPane(w);
-        JScrollPane thursdayScrollPane = new JScrollPane(th);
-        JScrollPane fridayScrollPane = new JScrollPane(f);
-        JScrollPane saturdayScrollPane = new JScrollPane(sa);
-        JScrollPane sundayScrollPane = new JScrollPane(su);
+    public void addPanes() {
+        JTable table;
+        GridBagConstraints labelConstraint = new GridBagConstraints();
+        GridBagConstraints tableConstraint = new GridBagConstraints();
 
-       // GridBagConstraints tableConstraints = new GridBagConstraints();
-       // GridBagConstraints labelConstraints = new GridBagConstraints();
-       // initializeConstraintsGridBag(tableConstraints, labelConstraints);
+        for (int i = 0; i < 14; i++) {
+            if (i % 2 == 0) {
+                String label = findLabel(i);
+                addLabelConstraints(labelConstraint, i);
+                add(new JLabel(label), labelConstraint);
+            } else {
+                table = findTable(i);
+                initializeTable(table);
+                JScrollPane scrollPane = new JScrollPane(table);
+                addTableConstraints(tableConstraint, i);
+                add(scrollPane, tableConstraint);
+            }
+        }
 
-        add(new JLabel("Monday"), JLabel.CENTER);
-        add(mondayScrollPane);
-        add(new JLabel("Tuesday"));
-        add(tuesdayScrollPane);
-        add(new JLabel("Wednesday"));
-        add(wednesdayScrollPane);
-        add(new JLabel("Thursday"));
-        add(thursdayScrollPane);
-        add(new JLabel("Friday"));
-        add(fridayScrollPane);
-        add(new JLabel("Saturday"));
-        add(saturdayScrollPane);
-        add(new JLabel("Sunday"));
-        add(sundayScrollPane);
     }
 
-    public void initializeConstraintsGridBag(GridBagConstraints table, GridBagConstraints label) {
+    public String findLabel(int i) {
+        if (i == 0) {
+            return "Monday";
+        } else if (i == 2) {
+            return "Tuesday";
+        } else if (i == 4) {
+            return "Wednesday";
+        } else if (i == 6) {
+            return "Thursday";
+        } else if (i == 8) {
+            return "Friday";
+        } else if (i == 10) {
+            return "Saturday";
+        } else if (i == 12) {
+            return "Sunday";
+        } else {
+            return null;
+        }
+    }
 
+    public JTable findTable(int i) {
+        String[] col = {"Time", "Class Name", "Difficulty", "Teacher", "Number of Students"};
+        DefaultTableModel defaultTable = new DefaultTableModel(col,0);
+
+        if (i == 1) {
+            testingAddClasses();
+            addDanceClassesToTable(0,defaultTable);
+            monTable = new JTable(defaultTable);
+            return monTable;
+        } else if (i == 3) {
+            addDanceClassesToTable(1,defaultTable);
+            tuesTable = new JTable(defaultTable);
+            return tuesTable;
+        } else if (i == 5) {
+            addDanceClassesToTable(2,defaultTable);
+            wedTable = new JTable(defaultTable);
+            return wedTable;
+        } else if (i == 7) {
+            addDanceClassesToTable(3,defaultTable);
+            thurTable = new JTable(defaultTable);
+            return thurTable;
+        } else {
+            return findTableFriToSun(i);
+        }
+    }
+
+    public JTable findTableFriToSun(int i) {
+        JTable table;
+        String[] col = {"Time", "Class Name", "Difficulty", "Teacher", "Number of Students"};
+        DefaultTableModel defaultTable = new DefaultTableModel(col,0);
+
+        if  (i == 9) {
+            addDanceClassesToTable(4,defaultTable);
+            friTable = new JTable(defaultTable);
+            return friTable;
+        } else if (i == 11) {
+            addDanceClassesToTable(5,defaultTable);
+            satTable = new JTable(defaultTable);
+            return satTable;
+        } else if (i == 13) {
+            addDanceClassesToTable(6,defaultTable);
+            sunTable = new JTable(defaultTable);
+            return sunTable;
+        } else {
+            return null;
+        }
     }
 
     public void addDanceClassesToTable(int index, DefaultTableModel tableModel) {
         Day day = weeklySchedule.getWeeklySchedule().get(index);
         for (DanceClass dc: day.getDaySchedule()) {
 
-            Object[] row = {new Integer(dc.getTime()), dc.getClassName(), dc.getDifficultyLevel(),
-                    dc.getTeacherName(), new Integer(dc.getRegisteredStudents().size())};
+            Object[] row = {dc.getTime(), dc.getClassName(), dc.getDifficultyLevel(),
+                    dc.getTeacherName(), dc.getRegisteredStudents().size()};
 
             tableModel.addRow(row);
         }
     }
-
-
 
     public static void renderAndDisplayGUI() {
         JFrame frame = new JFrame("Weekly Dance Schedule");
