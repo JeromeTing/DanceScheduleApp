@@ -48,7 +48,7 @@ public class Table extends JPanel {
 
     public void addLabelConstraints(GridBagConstraints c, int i) {
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 10;
+        c.ipady = 1;
         c.weightx = 0.0;
         c.gridwidth = 3;
         c.gridx = 0;
@@ -57,7 +57,7 @@ public class Table extends JPanel {
 
     public void addTableConstraints(GridBagConstraints c, int i) {
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 40;
+        c.ipady = 4;
         c.weightx = 0.0;
         c.gridwidth = 3;
         c.gridx = 0;
@@ -169,6 +169,7 @@ public class Table extends JPanel {
         buttonArea.add(addButton);
         buttonArea.add(removeButton);
         processAddButton();
+        processRemoveButton();
 
         return buttonArea;
     }
@@ -177,12 +178,63 @@ public class Table extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame addFrame = new JFrame();;
+                JFrame addFrame = new JFrame();
                 addFrame.setVisible(true);
                 addFrame.setSize(new Dimension(250,500));
                 initializeAddFrame(addFrame);
             }
         });
+    }
+
+    public void processRemoveButton() {
+        removeButton.addActionListener((new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame removeFrame = new JFrame();
+                removeFrame.setVisible(true);
+                removeFrame.setSize(new Dimension(250,250));
+                initializeRemoveFrame(removeFrame);
+            }
+        }));
+    }
+
+    public void initializeRemoveFrame(JFrame frame) {
+        frame.setLayout(new GridLayout(5,0));
+        JTextField weekday = new JTextField();
+        JTextField time = new JTextField();
+        JButton submitButton = new JButton("Submit");
+
+        frame.add(new JLabel("What day is it on? (Monday)"));
+        frame.add(weekday);
+        frame.add(new JLabel("Time (Number from 0 - 2400"));
+        frame.add(time);
+        frame.add(submitButton);
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int t = Integer.parseInt(time.getText());
+                int d = matchDayWithInt(weekday.getText().toLowerCase());
+                Day day = weeklySchedule.getWeeklySchedule().get(d);
+                DanceClass dc = findDanceClass(day, t);
+                day.removeDanceClass(dc);
+                updateTable(d);
+            }
+        });
+
+    }
+
+    // EFFECT: Given a Day, returns a dance class from a specified time
+    private DanceClass findDanceClass(Day dayName, int time) {
+
+        while (true) {
+            for (DanceClass d: dayName.getDaySchedule()) {
+                if (time == d.getTime()) {
+                    return d;
+                }
+            }
+            System.out.println("Can't find that class, try again");
+        }
     }
 
     public void initializeAddFrame(JFrame frame) {
@@ -226,7 +278,6 @@ public class Table extends JPanel {
         } else if (dayName.equals("sunday")) {
             return 6;
         } else {
-            System.out.println("You didn't write a valid day");
             return -1;
         }
     }
