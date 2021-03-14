@@ -95,6 +95,7 @@ public class Table extends JPanel {
                 add(new JLabel(label), labelConstraint);
             } else {
                 table = findTable(i);
+                table.setEnabled(false);
                 initializeTable(table);
                 JScrollPane scrollPane = new JScrollPane(table);
                 addTableConstraints(tableConstraint, i);
@@ -275,6 +276,7 @@ public class Table extends JPanel {
                 DanceClass dc = findDanceClass(day, t);
                 day.removeDanceClass(dc);
                 updateTable(d);
+                frame.dispose();
             }
         });
 
@@ -313,7 +315,7 @@ public class Table extends JPanel {
         frame.add(new JLabel("Difficulty Level (Open, Intro, Advanced, Intermediate)"));
         frame.add(difficultyLevel);
         frame.add(submitButton);
-        processSubmit(submitButton, className, teacherName, difficultyLevel, time, weekday);
+        processSubmit(submitButton, className, teacherName, difficultyLevel, time, weekday, frame);
     }
 
     // EFFECT: given a string, returns an int that is a match for the index of the week (0 to 6). If no strings
@@ -340,7 +342,7 @@ public class Table extends JPanel {
 
     private void processSubmit(JButton submit, JTextField className,
                               JTextField teacherName, JTextField difficultyLevel,
-                              JTextField time, JTextField day) {
+                              JTextField time, JTextField day, JFrame frame) {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -351,6 +353,7 @@ public class Table extends JPanel {
                 Day weekday = weeklySchedule.getWeeklySchedule().get(d);
                 weekday.addDanceClass(danceClass);
                 updateTable(d);
+                frame.dispose();
             }
         });
     }
