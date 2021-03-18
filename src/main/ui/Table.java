@@ -6,17 +6,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 
 import model.WeeklySchedule;
 import model.DanceClass;
 import model.Day;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 public class Table extends JPanel {
     private String jsonStore = "./data/weeklyschedule.json";
+    private String rattleSnake = "./data/Rucucu.wav";
+    private String absolutely = "./data/Absolutely2.wav";
 
     private JsonWriter jsonWriter = new JsonWriter(jsonStore);
     private JsonReader jsonReader = new JsonReader(jsonStore);
@@ -35,6 +38,7 @@ public class Table extends JPanel {
     private JButton removeButton;
     private JButton saveButton;
     private JButton loadButton;
+
 
 
 
@@ -233,6 +237,7 @@ public class Table extends JPanel {
                 } catch (FileNotFoundException exception) {
                     System.out.println("Unable to write to file: " + jsonStore);
                 }
+                playSound(rattleSnake);
             }
         });
     }
@@ -250,6 +255,7 @@ public class Table extends JPanel {
                 for (int i = 0; i < 7; i++) {
                     updateTable(i);
                 }
+                playSound(absolutely);
             }
         });
     }
@@ -277,6 +283,7 @@ public class Table extends JPanel {
                 day.removeDanceClass(dc);
                 updateTable(d);
                 frame.dispose();
+
             }
         });
 
@@ -354,6 +361,7 @@ public class Table extends JPanel {
                 weekday.addDanceClass(danceClass);
                 updateTable(d);
                 frame.dispose();
+
             }
         });
     }
@@ -383,7 +391,16 @@ public class Table extends JPanel {
         }
     }
 
-
+    public void playSound(String filepath) {
+        InputStream sound;
+        try {
+            sound = new FileInputStream(new File(filepath));
+            AudioStream audio = new AudioStream(sound);
+            AudioPlayer.player.start(audio);
+        } catch (Exception e) {
+            System.out.println("ERROR PLAYING SOUND");
+        }
+    }
 
     protected static void renderAndDisplayGUI() {
         JFrame frame = new JFrame("Weekly Dance Schedule");
