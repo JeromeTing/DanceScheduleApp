@@ -1,15 +1,9 @@
 package ui;
 
-import static ui.Table.renderAndDisplayGUI;
+import static ui.GUI.renderAndDisplayGUI;
 
 public class Main {
     public static void main(String[] args) {
-        //new DanceScheduleApp();
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                renderAndDisplayGUI();
-            }
-        });
+        renderAndDisplayGUI();
     }
 }

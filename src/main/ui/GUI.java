@@ -16,54 +16,38 @@ import persistence.JsonWriter;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
-public class Table extends JPanel {
-    private String jsonStore = "./data/weeklyschedule.json";
-    private String rattleSnake = "./data/Rucucu.wav";
-    private String absolutely = "./data/Absolutely2.wav";
+public class GUI extends JPanel {
+    private String jsonStore = "./data/weeklyschedule.json";            //String of path for saving/loading
+    private String rattleSnake = "./data/Rucucu.wav";                   // String of path for Rucucu sound
+    private String absolutely = "./data/Absolutely2.wav";               // String of path for Absolutely sound
 
     private JsonWriter jsonWriter = new JsonWriter(jsonStore);
     private JsonReader jsonReader = new JsonReader(jsonStore);
 
-    private WeeklySchedule weeklySchedule = new WeeklySchedule();
+    private WeeklySchedule weeklySchedule = new WeeklySchedule();       // Creates a new weekly schedule
 
-    private DefaultTableModel monTable;
-    private DefaultTableModel tuesTable;
-    private DefaultTableModel wedTable;
-    private DefaultTableModel thurTable;
-    private DefaultTableModel friTable;
-    private DefaultTableModel satTable;
-    private DefaultTableModel sunTable;
+    private DefaultTableModel monTable;                                 // DefaultTableModel for Monday's schedule
+    private DefaultTableModel tuesTable;                                // DefaultTableModel for Tuesday's schedule
+    private DefaultTableModel wedTable;                                // DefaultTableModel for Wednesday's schedule
+    private DefaultTableModel thurTable;                               // DefaultTableModel for Thursday's schedule
+    private DefaultTableModel friTable;                                // DefaultTableModel for Friday's schedule
+    private DefaultTableModel satTable;                                // DefaultTableModel for Saturday's schedule
+    private DefaultTableModel sunTable;                                // DefaultTableModel for Sunday's schedule
 
-    private JButton addButton;
-    private JButton removeButton;
-    private JButton saveButton;
-    private JButton loadButton;
-
-
+    private JButton addButton;                      // JButton for the add dance class button
+    private JButton removeButton;                   // JButton for the remove dance class button
+    private JButton saveButton;                     // JButton for the save button
+    private JButton loadButton;                     // JButton for the load button
 
 
-    public void testingAddClasses() {
-        DanceClass danceClass1 = new DanceClass("Hip Hop", 1930, "Erik", "Advanced");
-        DanceClass danceClass2 = new DanceClass("Krump", 1230, "Jane", "Open");
-        DanceClass danceClass3 = new DanceClass("Popping", 2030, "Eric", "Intermediate");
-        DanceClass danceClass4 = new DanceClass("Tutting", 1000, "Shazam", "Intro");
-        DanceClass danceClass5 = new DanceClass("Waacking", 1600, "Amie", "Advanced");
-        DanceClass danceClass6 = new DanceClass("Kpop", 1430, "Marvin", "Open");
-        Day monday = weeklySchedule.getWeeklySchedule().get(0);
-        monday.addDanceClass(danceClass1);
-        monday.addDanceClass(danceClass2);
-        monday.addDanceClass(danceClass3);
-        monday.addDanceClass(danceClass4);
-        monday.addDanceClass(danceClass5);
-        monday.addDanceClass(danceClass6);
-    }
-
-
-    private Table() {
+    // EFFECT: constructs a new graphical user interface with a gridbaglayout and adds panes to the GUI
+    private GUI() {
         super(new GridBagLayout());
         addPanes();
     }
 
+    // MODIFIES: c
+    // EFFECTS: Adds the grid bag constraints for the labels (of Weekdays)
     private void addLabelConstraints(GridBagConstraints c, int i) {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 1;
@@ -73,6 +57,8 @@ public class Table extends JPanel {
         c.gridy = i;
     }
 
+    // MODIFIES: c
+    // EFFECTS: Adds the grid bag constraints for the tables (of the Weekdays)
     private void addTableConstraints(GridBagConstraints c, int i) {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 4;
@@ -82,11 +68,15 @@ public class Table extends JPanel {
         c.gridy = i;
     }
 
+    // MODIFIES: table
+    // EFFECT: Initializes the JTable (dimensions, scrollable)
     private void initializeTable(JTable table) {
         table.setPreferredScrollableViewportSize(new Dimension(600, 70));
         table.setFillsViewportHeight(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Adds the label and respective tables to the pane with specific grid bag constraints
     private void addPanes() {
         JTable table;
         GridBagConstraints labelConstraint = new GridBagConstraints();
@@ -99,16 +89,17 @@ public class Table extends JPanel {
                 add(new JLabel(label), labelConstraint);
             } else {
                 table = findTable(i);
-                table.setEnabled(false);
+                table.setEnabled(false); // makes tables non-editable
                 initializeTable(table);
                 JScrollPane scrollPane = new JScrollPane(table);
                 addTableConstraints(tableConstraint, i);
                 add(scrollPane, tableConstraint);
             }
         }
-
     }
 
+    // EFFECT: Returns Weekday label depending on the integer, returns null if it's not an even number between [0
+    // to 12]
     private String findLabel(int i) {
         if (i == 0) {
             return "Monday";
@@ -129,6 +120,8 @@ public class Table extends JPanel {
         }
     }
 
+    // EFFECTS: returns a JTable of the corresponding weekday based on an input integer
+    // if it cannot find the table (where the integer is not an odd number [1,13] it will return null
     private JTable findTable(int i) {
         String[] col = {"Time", "Class Name", "Difficulty", "Teacher", "Number of Students"};
 
@@ -150,6 +143,7 @@ public class Table extends JPanel {
         }
     }
 
+    // EFFECTS: Helper method that returns the table for Friday to Sunday based on an integer (Odd integer [0,13])
     private JTable findTableFriToSun(int i) {
         String[] col = {"Time", "Class Name", "Difficulty", "Teacher", "Number of Students"};
 
@@ -167,6 +161,9 @@ public class Table extends JPanel {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Adds the dance classes to their respective table row by row with corresponding information
+    // for each day schedule in chronological order
     private void addDanceClassesToTable(int index, DefaultTableModel tableModel) {
         Day day = weeklySchedule.getWeeklySchedule().get(index);
         for (DanceClass dc: day.getDaySchedule()) {
@@ -178,7 +175,7 @@ public class Table extends JPanel {
         }
     }
 
-
+    // EFFECTS: Returns a JPanel with buttons added to it (add, remove, save load)
     private JPanel setUpButtons() {
         addButton = new JButton("Add Dance Class");
         removeButton = new JButton("Remove Dance Class");
@@ -201,6 +198,9 @@ public class Table extends JPanel {
         return buttonArea;
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes the actions of clicking the add a dance class by creating a new frame and the
+    // corresponding fields
     private void processAddButton() {
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -213,6 +213,9 @@ public class Table extends JPanel {
         });
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes the actions of clicking the remove a dance class button by creating a new frame and the
+    // corresponding fields
     private void processRemoveButton() {
         removeButton.addActionListener(new ActionListener() {
             @Override
@@ -225,6 +228,8 @@ public class Table extends JPanel {
         });
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes the actions of clicking the save button by saving the dance schedule to file
     private void processSaveButton() {
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -242,6 +247,8 @@ public class Table extends JPanel {
         });
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes the actions of clicking the load button by loading the dance schedule from file
     private void processLoadButton() {
         loadButton.addActionListener(new ActionListener() {
             @Override
@@ -260,7 +267,9 @@ public class Table extends JPanel {
         });
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: Initializes the remove dance class window frame and all its fields, also process the action of
+    // clicking the submit button
     private void initializeRemoveFrame(JFrame frame) {
         frame.setLayout(new GridLayout(5,0));
         JTextField weekday = new JTextField();
@@ -302,6 +311,8 @@ public class Table extends JPanel {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Initializes the add dance class window frame and all its fields
     private void initializeAddFrame(JFrame frame) {
         frame.setLayout(new GridLayout(11,0));
         JTextField className = new JTextField();
@@ -328,25 +339,28 @@ public class Table extends JPanel {
     // EFFECT: given a string, returns an int that is a match for the index of the week (0 to 6). If no strings
     //         match then returns -1
     private int matchDayWithInt(String dayName) {
-        if (dayName.equals("monday")) {
-            return 0;
-        } else if (dayName.equals("tuesday")) {
-            return 1;
-        } else if (dayName.equals("wednesday")) {
-            return 2;
-        } else if (dayName.equals("thursday")) {
-            return 3;
-        } else if (dayName.equals("friday")) {
-            return 4;
-        } else if (dayName.equals("saturday")) {
-            return 5;
-        } else if (dayName.equals("sunday")) {
-            return 6;
-        } else {
-            return -1;
+        switch (dayName) {
+            case "monday":
+                return 0;
+            case "tuesday":
+                return 1;
+            case "wednesday":
+                return 2;
+            case "thursday":
+                return 3;
+            case "friday":
+                return 4;
+            case "saturday":
+                return 5;
+            case "sunday":
+                return 6;
+            default:
+                return -1;
         }
     }
 
+    // MODIFIES: this
+    // EFFECT: Processes the submit button for when it is clicked in the add dance class frame
     private void processSubmit(JButton submit, JTextField className,
                               JTextField teacherName, JTextField difficultyLevel,
                               JTextField time, JTextField day, JFrame frame) {
@@ -366,6 +380,9 @@ public class Table extends JPanel {
         });
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates a specific Day schedule (based on the input integer) by clearing the table and re-adding
+    // all the rows
     private void updateTable(int d) {
         if (d == 0) {
             monTable.setRowCount(0);
@@ -391,6 +408,8 @@ public class Table extends JPanel {
         }
     }
 
+    // EFFECT: Tries to play a sound from a specific path, catches exception if fails and
+    // produces "ERROR PLAYING SOUND"
     public void playSound(String filepath) {
         InputStream sound;
         try {
@@ -402,6 +421,7 @@ public class Table extends JPanel {
         }
     }
 
+    // EFFECT: Renders and displays the graphical user interface of the weekly dance schedule
     protected static void renderAndDisplayGUI() {
         JFrame frame = new JFrame("Weekly Dance Schedule");
 
@@ -412,7 +432,7 @@ public class Table extends JPanel {
         tableConstraints.gridy = 0;
         buttonConstraints.gridy = 1;
 
-        Table newWeekPane = new Table();
+        GUI newWeekPane = new GUI();
         newWeekPane.setOpaque(true);
         frame.add(newWeekPane,tableConstraints);
         frame.add(newWeekPane.setUpButtons(),buttonConstraints);
