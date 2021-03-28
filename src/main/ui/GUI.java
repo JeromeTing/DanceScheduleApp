@@ -16,10 +16,14 @@ import persistence.JsonWriter;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
+// Graphic user interface for Weekly Dance Schedule App
+// Saving and loading portions based on (https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git)
 public class GUI extends JPanel {
     private String jsonStore = "./data/weeklyschedule.json";            //String of path for saving/loading
     private String rattleSnake = "./data/Rucucu.wav";                   // String of path for Rucucu sound
     private String absolutely = "./data/Absolutely2.wav";               // String of path for Absolutely sound
+    private String ding = "./data/ding.wav";                            // String of path for ding sound
+    private String capture = "./data/CaptureSound.wav";                 // String of path for the capture sound
 
     private JsonWriter jsonWriter = new JsonWriter(jsonStore);
     private JsonReader jsonReader = new JsonReader(jsonStore);
@@ -126,7 +130,6 @@ public class GUI extends JPanel {
         String[] col = {"Time", "Class Name", "Difficulty", "Teacher", "Number of Students"};
 
         if (i == 1) {
-            //testingAddClasses();
             addDanceClassesToTable(0,monTable = new DefaultTableModel(col,0));
             return new JTable(monTable);
         } else if (i == 3) {
@@ -230,6 +233,7 @@ public class GUI extends JPanel {
 
     // MODIFIES: this
     // EFFECTS: processes the actions of clicking the save button by saving the dance schedule to file
+    // plays the capture sound when save occurs
     private void processSaveButton() {
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -238,17 +242,17 @@ public class GUI extends JPanel {
                     jsonWriter.open();
                     jsonWriter.write(weeklySchedule);
                     jsonWriter.close();
-                    System.out.println("Saved weekly dance schedule to " + jsonStore);
                 } catch (FileNotFoundException exception) {
                     System.out.println("Unable to write to file: " + jsonStore);
                 }
-                playSound(rattleSnake);
+                playSound(capture);
             }
         });
     }
 
     // MODIFIES: this
     // EFFECTS: processes the actions of clicking the load button by loading the dance schedule from file
+    // plays absolutely sound clip when load occurs
     private void processLoadButton() {
         loadButton.addActionListener(new ActionListener() {
             @Override
@@ -269,14 +273,14 @@ public class GUI extends JPanel {
 
     // MODIFIES: this
     // EFFECTS: Initializes the remove dance class window frame and all its fields, also process the action of
-    // clicking the submit button
+    // clicking the submit button, plays rattle snake sound when submit is clicked for removed frame
     private void initializeRemoveFrame(JFrame frame) {
         frame.setLayout(new GridLayout(5,0));
         JTextField weekday = new JTextField();
         JTextField time = new JTextField();
         JButton submitButton = new JButton("Submit");
 
-        frame.add(new JLabel("What day is it on? (Monday)"));
+        frame.add(new JLabel("Day of the Week (Monday, Tuesday etc.)"));
         frame.add(weekday);
         frame.add(new JLabel("Time (Number from 0 - 2400"));
         frame.add(time);
@@ -291,8 +295,8 @@ public class GUI extends JPanel {
                 DanceClass dc = findDanceClass(day, t);
                 day.removeDanceClass(dc);
                 updateTable(d);
+                playSound(rattleSnake);
                 frame.dispose();
-
             }
         });
 
@@ -300,15 +304,12 @@ public class GUI extends JPanel {
 
     // EFFECT: Given a Day, returns a dance class from a specified time
     private DanceClass findDanceClass(Day dayName, int time) {
-
-        while (true) {
-            for (DanceClass d: dayName.getDaySchedule()) {
-                if (time == d.getTime()) {
-                    return d;
-                }
+        for (DanceClass d : dayName.getDaySchedule()) {
+            if (time == d.getTime()) {
+                return d;
             }
-            System.out.println("Can't find that class, try again");
         }
+        return null;
     }
 
     // MODIFIES: this
@@ -322,7 +323,7 @@ public class GUI extends JPanel {
         JTextField weekday = new JTextField();
         JButton submitButton = new JButton("Submit");
 
-        frame.add(new JLabel("What day is it on? (Monday)"));
+        frame.add(new JLabel("Day of the Week (Monday, Tuesday etc.)"));
         frame.add(weekday);
         frame.add(new JLabel("Time (Number from 0 - 2400"));
         frame.add(time);
@@ -361,6 +362,7 @@ public class GUI extends JPanel {
 
     // MODIFIES: this
     // EFFECT: Processes the submit button for when it is clicked in the add dance class frame
+    // plays the ding sound effect when the remove submit button is clicked
     private void processSubmit(JButton submit, JTextField className,
                               JTextField teacherName, JTextField difficultyLevel,
                               JTextField time, JTextField day, JFrame frame) {
@@ -374,8 +376,8 @@ public class GUI extends JPanel {
                 Day weekday = weeklySchedule.getWeeklySchedule().get(d);
                 weekday.addDanceClass(danceClass);
                 updateTable(d);
+                playSound(ding);
                 frame.dispose();
-
             }
         });
     }
