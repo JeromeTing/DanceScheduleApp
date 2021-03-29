@@ -26,3 +26,7 @@ take their classes. This is especially important during this global pandemic whe
 - as a user, I want to be able to save my dance schedule to file
 - as a user, I want to be able to load my dance schedule from file
 - as a user, I want to have the option to save my dance schedule to file when I attempt to quit the application
+
+## Phase 4: Task 2
+- Tested and designed the DanceClass class to be robust
+- The methods in the DanceClass that achieve this is the constructor for the DanceClass and registerStudent()

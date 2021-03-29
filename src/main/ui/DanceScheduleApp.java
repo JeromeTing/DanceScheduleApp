@@ -8,6 +8,9 @@ import model.DanceClass;
 import model.Day;
 import model.Student;
 import model.WeeklySchedule;
+import model.exceptions.StringLengthException;
+import model.exceptions.StudentAlreadyRegisteredException;
+import model.exceptions.TimeOutOfBoundsException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -24,13 +27,15 @@ public class DanceScheduleApp {
     private JsonReader jsonReader;
 
     //EFFECTS: runs the dance schedule app
-    public DanceScheduleApp() {
+    public DanceScheduleApp() throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         runDanceSchedule();
     }
 
     // MODIFIES: this
     // EFFECTS: processes the user input for the initial start instructions and quit instructions (reminder to save)
-    private void runDanceSchedule() {
+    private void runDanceSchedule() throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         boolean isRunning = true;
         String command;
 
@@ -79,7 +84,8 @@ public class DanceScheduleApp {
     // MODIFIES: this
     // EFFECTS: processes the users command or will notify that an invalid command was entered,
     //          if no valid command is entered, prints "Try a valid command"
-    private void processCommand(String command) {
+    private void processCommand(String command) throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         if (command.equals("d")) {
             displaySchedule();
         } else if (command.equals("a")) {
@@ -101,7 +107,7 @@ public class DanceScheduleApp {
     // MODIFIES: this
     // EFFECTS: processes the command to register/remove a student from a class, if invalid nothing occurs and goes
     //          back to main start instructions (with a printed error message)
-    private void processStudentCommand() {
+    private void processStudentCommand() throws StudentAlreadyRegisteredException {
         System.out.println("Type:");
         System.out.println("\t'register' to register a student from a class");
         System.out.println("\t'remove' to remove a student from a class");
@@ -161,7 +167,7 @@ public class DanceScheduleApp {
 
     // MODIFIES: this
     // EFFECT: adds a dance class to the weekly schedule for a specific day
-    private void addClassToSchedule(String s) {
+    private void addClassToSchedule(String s) throws StringLengthException, TimeOutOfBoundsException {
         Day dayName;
         dayName = pickDay();
         DanceClass danceClass = addClass();
@@ -172,7 +178,7 @@ public class DanceScheduleApp {
     // MODIFIES: this
     // EFFECT: changes a specified danceClass details (ClassName, TeacherName, DifficultyLevel), if
     // user wants to change class time or day, removes class and re-enters the details
-    private void changeClassDetails() {
+    private void changeClassDetails() throws StringLengthException, TimeOutOfBoundsException {
         Day dayName = pickDay();
         displayDaySchedule(dayName);
         System.out.println("What time is the class you want to change?");
@@ -249,7 +255,7 @@ public class DanceScheduleApp {
     }
 
     // EFFECT: returns a dance class with user specified input of a time
-    private DanceClass addClass() {
+    private DanceClass addClass() throws StringLengthException, TimeOutOfBoundsException {
         String className = addClassName("What is the name of the class?");
         System.out.println("What time is this class? (between 0 to 2400)");
         int time = addTime();
@@ -308,7 +314,7 @@ public class DanceScheduleApp {
 
     // MODIFIES: this
     // EFFECT: Creates a new student and registers them into a dance class
-    private void registerStudentToClass() {
+    private void registerStudentToClass() throws StudentAlreadyRegisteredException {
         Student student;
 
         String studentName = inputStudentName();
@@ -370,7 +376,7 @@ public class DanceScheduleApp {
     // MODIFIES: this
     // EFFECT: Registers a given student to a dance class. If dance class or day is empty, prints appropriate
     //          message
-    private void registerStudent(Student student) {
+    private void registerStudent(Student student) throws StudentAlreadyRegisteredException {
         input.nextLine();
 
         String dayOfWeek = inputDay().toLowerCase();
@@ -437,7 +443,8 @@ public class DanceScheduleApp {
     }
 
     // EFFECT: Processes the command for save/load from main menu
-    private void saveLoadCommand() {
+    private void saveLoadCommand() throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         String command;
 
         displaySaveLoad();
@@ -455,7 +462,8 @@ public class DanceScheduleApp {
     }
 
     // EFFECT: processes the save or load command from the sub save/load menu
-    private void processSaveLoadCommand(String command) {
+    private void processSaveLoadCommand(String command) throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         if (command.equals("s")) {
             saveWeeklySchedule();
         } else if (command.equals("l")) {
@@ -479,7 +487,8 @@ public class DanceScheduleApp {
 
     // MODIFIES: this
     // EFFECT: loads weekly schedule from file
-    private void loadWeeklySchedule() {
+    private void loadWeeklySchedule() throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         try {
             week = jsonReader.read();
             System.out.println("Loaded weekly dance schedule from " + jsonStore);

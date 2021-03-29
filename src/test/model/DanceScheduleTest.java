@@ -1,5 +1,8 @@
 package model;
 
+import model.exceptions.StringLengthException;
+import model.exceptions.StudentAlreadyRegisteredException;
+import model.exceptions.TimeOutOfBoundsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +39,7 @@ class DanceScheduleTest {
     private Day tuesdaySchedule;
 
     @BeforeEach
-    public void runBefore() {
+    public void runBefore() throws StringLengthException, TimeOutOfBoundsException {
         danceClass1 = new DanceClass("Hip Hop", 1930, "Erik", "Advanced");
         danceClass2 = new DanceClass("Krump", 1230, "Jane", "Open");
         danceClass3 = new DanceClass("Popping", 2030, "Eric", "Intermediate");
@@ -66,6 +69,81 @@ class DanceScheduleTest {
         kayla = new Student ("Kayla", 113);
         tiernan = new Student ("Tiernan", 114);
         petra = new Student ("Petra", 115);
+    }
+
+    @Test
+    public void testDanceClassConstructorNoException() {
+        try {
+            DanceClass dc = new DanceClass("Hip Hop", 1500, "Jerome", "Open");
+            assertEquals("Hip Hop", dc.getClassName());
+            assertEquals("Jerome", dc.getTeacherName());
+            assertEquals("Open", dc.getDifficultyLevel());
+            assertEquals(1500, dc.getTime());
+        } catch (StringLengthException e) {
+            fail("StringLengthException not expected");
+        } catch (TimeOutOfBoundsException e) {
+            fail("TimeOutOfBoundException not expected");
+        }
+    }
+
+    @Test
+    public void testDanceClassConstructorClassNameLengthException() {
+        try {
+            DanceClass dc = new DanceClass("", 1500, "Jerome", "Open");
+            fail("StringLengthException expected");
+        } catch (StringLengthException e) {
+            // pass
+        } catch (TimeOutOfBoundsException e) {
+            fail("TimeOutOfBoundException not expected");
+        }
+    }
+
+    @Test
+    public void testDanceClassConstructorTeacherNameLengthException() {
+        try {
+            DanceClass dc = new DanceClass("Hip Hop", 1500, "", "Open");
+            fail("StringLengthException expected");
+        } catch (StringLengthException e) {
+            // pass
+        } catch (TimeOutOfBoundsException e) {
+            fail("TimeOutOfBoundException not expected");
+        }
+    }
+
+    @Test
+    public void testDanceClassConstructorDifficultyLengthException() {
+        try {
+            DanceClass dc = new DanceClass("Hip Hop", 1500, "Jerome", "");
+            fail("StringLengthException expected");
+        } catch (StringLengthException e) {
+            // pass
+        } catch (TimeOutOfBoundsException e) {
+            fail("TimeOutOfBoundException not expected");
+        }
+    }
+
+    @Test
+    public void testDanceClassConstructorNegativeTimeException() {
+        try {
+            DanceClass dc = new DanceClass("Hip Hop", -1, "Jerome", "Open");
+            fail("TimeOutOfBoundException expected");
+        } catch (StringLengthException e) {
+            fail("StringLengthException not expected");
+        } catch (TimeOutOfBoundsException e) {
+            // pass
+        }
+    }
+
+    @Test
+    public void testDanceClassConstructorGreaterThan2400TimeException() {
+        try {
+            DanceClass dc = new DanceClass("Hip Hop", 2401, "Jerome", "Open");
+            fail("TimeOutOfBoundException expected");
+        } catch (StringLengthException e) {
+            fail("StringLengthException not expected");
+        } catch (TimeOutOfBoundsException e) {
+            // pass
+        }
     }
 
     @Test
@@ -109,23 +187,30 @@ class DanceScheduleTest {
     }
     @Test
     public void testRegisterStudentEmptyClass() {
-        assertTrue(danceClass1.registerStudent(jerome));
+        try {
+            assertTrue(danceClass1.registerStudent(jerome));
+            assertEquals(1,danceClass1.sizeOfClass());
+            assertTrue(danceClass1.isStudentRegistered(jerome));
+        } catch (StudentAlreadyRegisteredException e) {
+            fail("Exception not expected here");
+        }
+    }
 
+    @Test
+    public void testRegisterStudentAlreadyInClass() throws StudentAlreadyRegisteredException {
+            danceClass1.registerStudent(jerome);
+        try {
+            danceClass1.registerStudent(jerome);
+            fail("Exception expected here");
+        } catch (StudentAlreadyRegisteredException e) {
+            //pass
+        }
         assertEquals(1,danceClass1.sizeOfClass());
         assertTrue(danceClass1.isStudentRegistered(jerome));
     }
 
     @Test
-    public void testRegisterStudentAlreadyInClass() {
-        assertTrue(danceClass1.registerStudent(jerome));
-        assertFalse(danceClass1.registerStudent(jerome));
-
-        assertEquals(1,danceClass1.sizeOfClass());
-        assertTrue(danceClass1.isStudentRegistered(jerome));
-    }
-
-    @Test
-    public void testRemoveStudentOneStudent() {
+    public void testRemoveStudentOneStudent() throws StudentAlreadyRegisteredException {
         assertTrue(danceClass1.registerStudent(jon));
         danceClass1.removeStudent(jon);
 
@@ -133,7 +218,7 @@ class DanceScheduleTest {
     }
 
     @Test
-    public void testRemoveMultipleStudents() {
+    public void testRemoveMultipleStudents() throws StudentAlreadyRegisteredException {
         assertTrue(danceClass1.registerStudent(jon));
         assertTrue(danceClass1.registerStudent(bella));
         assertTrue(danceClass1.registerStudent(josh));
@@ -146,7 +231,7 @@ class DanceScheduleTest {
     }
 
     @Test
-    public void testRegisterStudentMultipleStudentsMax() {
+    public void testRegisterStudentMultipleStudentsMax() throws StudentAlreadyRegisteredException {
         assertTrue(danceClass1.registerStudent(jon));
         assertTrue(danceClass1.registerStudent(bella));
         assertTrue(danceClass1.registerStudent(josh));
@@ -208,7 +293,7 @@ class DanceScheduleTest {
     }
 
     @Test
-    public void testAddDanceClassSameTime() {
+    public void testAddDanceClassSameTime() throws StringLengthException, TimeOutOfBoundsException {
         DanceClass danceClass7 = new DanceClass("Hip Hop", 1930, "Kayla","Open");
         assertTrue(tuesdaySchedule.addDanceClass(danceClass1));
 

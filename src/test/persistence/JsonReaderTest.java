@@ -4,6 +4,9 @@ import model.DanceClass;
 import model.Day;
 import model.Student;
 import model.WeeklySchedule;
+import model.exceptions.StringLengthException;
+import model.exceptions.StudentAlreadyRegisteredException;
+import model.exceptions.TimeOutOfBoundsException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -15,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JsonReaderTest extends JsonTest {
 
     @Test
-    public void testReaderNoFileExists() {
+    public void testReaderNoFileExists() throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         JsonReader reader = new JsonReader("./data/noFileExists.json");
         try {
             WeeklySchedule ws = reader.read();
@@ -26,7 +30,8 @@ public class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    public void testReaderEmptyWeeklySchedule() {
+    public void testReaderEmptyWeeklySchedule() throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         JsonReader reader = new JsonReader("./data/testReaderEmptyWeeklySchedule.json");
         try {
             WeeklySchedule ws = reader.read();
@@ -37,7 +42,8 @@ public class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    public void testReaderWeeklyScheduleSomeClassesAndStudents() {
+    public void testReaderWeeklyScheduleSomeClassesAndStudents() throws StringLengthException,
+            TimeOutOfBoundsException, StudentAlreadyRegisteredException {
         JsonReader reader = new JsonReader(("./data/testReaderWeeklyScheduleSomeClassesAndStudents.json"));
         try {
             WeeklySchedule ws = reader.read();

@@ -1,5 +1,8 @@
 package model;
 
+import model.exceptions.StringLengthException;
+import model.exceptions.StudentAlreadyRegisteredException;
+import model.exceptions.TimeOutOfBoundsException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
@@ -18,16 +21,25 @@ public class DanceClass implements Writable {
                                                 // or "Advanced"
     private List<Student> registeredStudents;   // list of students registered in a class
 
-    /* REQUIRES: className, teacherName, and difficultyLevel must be a string length > 0.
-     *           time must be an integer [0, 2400].
-     * EFFECTS: constructs a dance class, where the class name, time, teacher name, and difficulty
+    /* EFFECTS: constructs a dance class, where the class name, time, teacher name, and difficulty
      *          level are given
+     *          if stringLength is 0, then throws a StringLengthException
+     *          if time is not between [0,2400]. throws a TimeOutOfBoundsExceptions
      */
-    public DanceClass(String className, int time, String teacherName, String difficultyLevel) {
-        this.className = className;
-        this.time = time;
-        this.teacherName = teacherName;
-        this.difficultyLevel = difficultyLevel;
+    public DanceClass(String className, int time, String teacherName, String difficultyLevel)
+            throws StringLengthException, TimeOutOfBoundsException {
+        if (className.length() == 0 || teacherName.length() == 0 || difficultyLevel.length() == 0) {
+            throw new StringLengthException("String is empty!");
+        } else {
+            this.className = className;
+            this.teacherName = teacherName;
+            this.difficultyLevel = difficultyLevel;
+        }
+        if (0 <= time && time <= 2400) {
+            this.time = time;
+        } else {
+            throw new TimeOutOfBoundsException("Time is not between 0 and 2400, inclusively");
+        }
         registeredStudents = new ArrayList<>();
     }
 
@@ -70,19 +82,20 @@ public class DanceClass implements Writable {
         return registeredStudents.size();
     }
 
-    // REQUIRES: student must be registered in the class
     // EFFECT: returns true if the student is registered, false otherwise
     public boolean isStudentRegistered(Student student) {
         return registeredStudents.contains(student);
     }
 
-    /* REQUIRES: Student cannot be registered in the class already
-     * MODIFIES: this
+    /* MODIFIES: this
      * EFFECTS: registers the student for the class if there is less than maxParticipants
      * and produces true if successful. Otherwise produce false.
+     * If student is already registered in the class, throw StudentAlreadyRegisteredException
      */
-    public boolean registerStudent(Student student) {
-        if (registeredStudents.size() < MAX_STUDENTS && !registeredStudents.contains(student)) {
+    public boolean registerStudent(Student student) throws StudentAlreadyRegisteredException {
+        if (isStudentRegistered(student)) {
+            throw new StudentAlreadyRegisteredException("Student is already registered in the class");
+        } else if (registeredStudents.size() < MAX_STUDENTS && !registeredStudents.contains(student)) {
             registeredStudents.add(student);
             return true;
         }

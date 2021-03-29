@@ -4,6 +4,9 @@ import model.DanceClass;
 import model.Day;
 import model.Student;
 import model.WeeklySchedule;
+import model.exceptions.StringLengthException;
+import model.exceptions.StudentAlreadyRegisteredException;
+import model.exceptions.TimeOutOfBoundsException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -28,7 +31,8 @@ public class JsonWriterTest extends JsonTest{
     }
 
     @Test
-    public void testWriterEmptyWeeklySchedule() {
+    public void testWriterEmptyWeeklySchedule() throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         try {
             WeeklySchedule ws = new WeeklySchedule();
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyWeeklySchedule.json");
@@ -44,7 +48,8 @@ public class JsonWriterTest extends JsonTest{
         }
     }
 
-    public void addToEmptyScheduleForTest(WeeklySchedule ws) {
+    public void addToEmptyScheduleForTest(WeeklySchedule ws) throws StringLengthException, TimeOutOfBoundsException,
+            StudentAlreadyRegisteredException {
         Day monday = ws.getWeeklySchedule().get(0);
         Day friday = ws.getWeeklySchedule().get(4);
         DanceClass danceClass1 =
@@ -77,7 +82,7 @@ public class JsonWriterTest extends JsonTest{
             JsonReader reader = new JsonReader("./data/testWriterWeeklyScheduleSOmeClassesAndStudents.json");
             ws = reader.read();
             checkWeeklyScheduleSomeClassesAndStudents(ws);
-        } catch (IOException e) {
+        } catch (IOException | StringLengthException | TimeOutOfBoundsException | StudentAlreadyRegisteredException e) {
             fail("Exception should not be thrown here");
         }
     }

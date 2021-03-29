@@ -11,6 +11,9 @@ import java.io.*;
 import model.WeeklySchedule;
 import model.DanceClass;
 import model.Day;
+import model.exceptions.StringLengthException;
+import model.exceptions.StudentAlreadyRegisteredException;
+import model.exceptions.TimeOutOfBoundsException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 import sun.audio.AudioPlayer;
@@ -259,9 +262,12 @@ public class GUI extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     weeklySchedule = jsonReader.read();
-                    System.out.println("Loaded weekly dance schedule from " + jsonStore);
+
                 } catch (IOException exception) {
                     System.out.println("Unable to read from file: " + jsonStore);
+                } catch (StringLengthException | StudentAlreadyRegisteredException
+                        | TimeOutOfBoundsException stringLengthException) {
+                    stringLengthException.printStackTrace();
                 }
                 for (int i = 0; i < 7; i++) {
                     updateTable(i);
@@ -370,8 +376,13 @@ public class GUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int t = Integer.parseInt(time.getText());
-                DanceClass danceClass = new DanceClass(className.getText(), t, teacherName.getText(),
-                        difficultyLevel.getText());
+                DanceClass danceClass = null;
+                try {
+                    danceClass = new DanceClass(className.getText(), t, teacherName.getText(),
+                            difficultyLevel.getText());
+                } catch (StringLengthException | TimeOutOfBoundsException stringLengthException) {
+                    stringLengthException.printStackTrace();
+                }
                 int d = matchDayWithInt(day.getText().toLowerCase());
                 Day weekday = weeklySchedule.getWeeklySchedule().get(d);
                 weekday.addDanceClass(danceClass);
