@@ -30,3 +30,13 @@ take their classes. This is especially important during this global pandemic whe
 ## Phase 4: Task 2
 - Tested and designed the DanceClass class to be robust
 - The methods in the DanceClass that achieve this is the constructor for the DanceClass and registerStudent()
+
+## Phase 4: Task 3
+- Refactor GUI class into more focused classes to improve higher cohesion (such as buttons, tables etc.)
+- Refactor DanceScheduleApp into more focused classes to improve higher cohesion (such as the main menu, and each
+action as its own class - save/load, display schedule, add dance class, remove dance class etc.)
+- Add class hierarchy to remove duplicate code for DanceScheduleApp
+- GUI can be refactored for duplicate code into their own classes for the creation of buttons, tables, and panes
+ and/or refactored by adding hierarchy classes
+- DanceScheduleApp and GUI have associations to the same objects, refactor so DanceScheduleApp can have an association 
+to GUI class (remove unnecessary association)
