@@ -231,7 +231,7 @@ class DanceScheduleTest {
     }
 
     @Test
-    public void testRegisterStudentMultipleStudentsMax() throws StudentAlreadyRegisteredException {
+    public void testRegisterStudentMultipleStudentsMaxDifferentStudent() throws StudentAlreadyRegisteredException {
         assertTrue(danceClass1.registerStudent(jon));
         assertTrue(danceClass1.registerStudent(bella));
         assertTrue(danceClass1.registerStudent(josh));
@@ -250,8 +250,42 @@ class DanceScheduleTest {
 
         assertEquals(15, danceClass1.sizeOfClass());
 
-        assertFalse(danceClass1.registerStudent(jerome));
+        try {
+            assertFalse(danceClass1.registerStudent(jerome));
+        } catch (StudentAlreadyRegisteredException e) {
+            fail("Exception not expected");
+        }
+        assertFalse(danceClass1.getRegisteredStudents().contains(jerome));
+        assertEquals(15, danceClass1.sizeOfClass());
+    }
 
+    @Test
+    public void testRegisterStudentMultipleStudentsMaxDuplicateStudent() throws StudentAlreadyRegisteredException {
+        assertTrue(danceClass1.registerStudent(jon));
+        assertTrue(danceClass1.registerStudent(bella));
+        assertTrue(danceClass1.registerStudent(josh));
+        assertTrue(danceClass1.registerStudent(cora));
+        assertTrue(danceClass1.registerStudent(trent));
+        assertTrue(danceClass1.registerStudent(erik));
+        assertTrue(danceClass1.registerStudent(jeav));
+        assertTrue(danceClass1.registerStudent(emma));
+        assertTrue(danceClass1.registerStudent(raegan));
+        assertTrue(danceClass1.registerStudent(raymund));
+        assertTrue(danceClass1.registerStudent(helen));
+        assertTrue(danceClass1.registerStudent(marvin));
+        assertTrue(danceClass1.registerStudent(kayla));
+        assertTrue(danceClass1.registerStudent(tiernan));
+        assertTrue(danceClass1.registerStudent(petra));
+
+        assertEquals(15, danceClass1.sizeOfClass());
+
+        try {
+            assertFalse(danceClass1.registerStudent(petra));
+            fail("Student already registered, exception expected");
+        } catch (StudentAlreadyRegisteredException e) {
+            // pass
+        }
+        assertTrue(danceClass1.getRegisteredStudents().contains(petra));
         assertEquals(15, danceClass1.sizeOfClass());
     }
     @Test
