@@ -95,7 +95,7 @@ public class DanceClass implements Writable {
     public boolean registerStudent(Student student) throws StudentAlreadyRegisteredException {
         if (isStudentRegistered(student)) {
             throw new StudentAlreadyRegisteredException("Student is already registered in the class");
-        } else if (registeredStudents.size() < MAX_STUDENTS && !registeredStudents.contains(student)) {
+        } else if (registeredStudents.size() < MAX_STUDENTS) {
             registeredStudents.add(student);
             return true;
         }
