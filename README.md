@@ -41,6 +41,3 @@ take their classes. This is especially important during this global pandemic whe
 (graphical user interface) class is used
 - Refactor repetitive code in the classes to a more abstract method (such as ToJson in both the Day and WeeklySchedule
  class, or the addTableConstraint methods in GUI)
-- Implement the rest of the user stories into the graphical user interface (register/remove students, change details 
-of a dance class, the option to save when attempting to quit the application)
-
