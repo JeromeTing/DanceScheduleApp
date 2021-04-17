@@ -27,17 +27,4 @@ take their classes. This is especially important during this global pandemic whe
 - as a user, I want to be able to load my dance schedule from file
 - as a user, I want to have the option to save my dance schedule to file when I attempt to quit the application
 
-## Phase 4: Task 2
-- Tested and designed the DanceClass class to be robust
-- The methods in the DanceClass that achieve this is the constructor for the DanceClass and registerStudent()
 
-## Phase 4: Task 3
-- Refactor GUI class into more focused classes to improve higher cohesion and lower coupling
-- This can be done by refactoring the GUI class into the button class, table class, sound class, and panel class
- where each class would be focused on different aspects of the graphical user interface
-- GUI can be refactored for duplicate code into their own classes for the creation of buttons, tables, and panes
- and/or refactored by adding hierarchy classes
-- Refactor the console class by removing the DanceScheduleApp class because the code is unused and only the GUI 
-(graphical user interface) class is used
-- Refactor repetitive code in the classes to a more abstract method (such as ToJson in both the Day and WeeklySchedule
- class, or the addTableConstraint methods in GUI)
