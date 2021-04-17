@@ -20,7 +20,7 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 // Graphic user interface for Weekly Dance Schedule App
-// Saving and loading portions based on (https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git)
+// Saving and loading portions based on
 public class GUI extends JPanel {
     private String jsonStore = "./data/weeklyschedule.json";            //String of path for saving/loading
     private String rattleSnake = "./data/Rucucu.wav";                   // String of path for Rucucu sound

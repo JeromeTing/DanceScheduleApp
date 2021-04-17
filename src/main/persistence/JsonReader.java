@@ -19,7 +19,7 @@ import org.json.*;
 
 // Represents a reader that reads the weekly dance schedule from JSON data stored in file
 // Code inspired and based on JsonSerializationDemo
-// (https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git)
+//
 public class JsonReader {
     private String source;
 

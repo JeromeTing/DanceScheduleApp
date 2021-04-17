@@ -7,7 +7,7 @@ import java.io.*;
 
 // Represents a writer that writes JSON representation of a weekly dance schedule to file
 // Code inspired and based on JsonSerializationDemo
-// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+//
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;

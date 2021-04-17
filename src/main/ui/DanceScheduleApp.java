@@ -2,7 +2,7 @@ package ui;
 
 // Dance schedule application
 // Parts of this class was based and inspired by the TellerApp and GymKioskApp
-// Saving and loading portions based on (https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git)
+// Saving and loading portions based on
 
 import model.DanceClass;
 import model.Day;

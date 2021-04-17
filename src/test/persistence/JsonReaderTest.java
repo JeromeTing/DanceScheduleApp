@@ -13,7 +13,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Code inspired and based on JsonSerializationDemo
-// (https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git)
+//
 
 public class JsonReaderTest extends JsonTest {
 
